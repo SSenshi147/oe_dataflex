@@ -1,0 +1,45 @@
+// 2021.02.17. - I7GFZK
+
+Use DfAllEnt.pkg
+
+Procedure DemoArray
+    String[] aNames
+    Integer iIndex
+    
+    Move "John" to aNames[0]
+    Move "Stephen" to aNames[1]
+    Move "Harm" to aNames[2]
+    Move "Nick" to aNames[3]
+    Move (SortArray(aNames)) to aNames
+    
+    For iIndex from 0 to (SizeOfArray(aNames)-1)
+        Showln aNames[iIndex]
+    Loop
+    
+    Move (SearchArray("Nick",aNames)) to iIndex
+    Showln (SFormat("Megtal ltam '%1', poz¡ci¢: %2", aNames[iIndex], iIndex))
+End_Procedure
+
+Procedure MultiDim
+    String[][] aaGrid
+    String sRes
+    Integer iX iY
+    
+    For iX from 0 to 4
+        For iY from 0 to 4
+            Move (Character(iX+65)+"."+String(iY)) to aaGrid[iX][iY]
+        Loop
+    Loop
+    
+    For iX from 0 to (SizeOfArray(aaGrid)-1)
+        Move "" to sRes
+        For iY from 0 to (SizeOfArray(aaGrid[iX])-1)
+            Move (sRes+"   "+aaGrid[iX][iY]) to sRes
+        Loop
+        Showln sRes
+    Loop
+End_Procedure
+
+Send DemoArray
+Send MultiDim
+Send Info_Box "k‚sz"

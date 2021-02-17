@@ -1,0 +1,23 @@
+// 2021.02.17. - I7GFZK
+
+Use DfAllEnt.pkg
+
+Procedure Valtozok
+    String sText sText2 sText3
+    Integer iVal1 iVal2
+    Number nVal1 nVal2
+    Date dToday
+    
+    Move (CurrentDateTime()) to dToday
+    Move ("Mai d tum: " + String(dToday)) to sText
+    
+    Move 5 to nVal1
+    // Move (iVal1+(2*7)) to iVal2
+    Move (nVal1/2) to nVal2
+    // Move 'N123' to iVal1 - hiba
+    // Move "Hell¢ DataFlex v ltoz¢k!" to sText
+    
+    Send Info_Box sText "Hello"
+End_Procedure
+
+Send Valtozok

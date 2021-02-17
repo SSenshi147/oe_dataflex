@@ -1,0 +1,73 @@
+// 2021.02.17. - I7GFZK
+
+Use DfAllEnt.pkg
+
+Class cPerson is a cObject
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+        Property String psFirstName ""
+        Property String psLastName ""
+    End_Procedure
+    
+    Function HelloMsg Returns String
+        String sFirst sLast
+        Get psFirstName to sFirst
+        Get psLastName to sLast
+        
+        Function_Return (SFormat("%1 %2 says hi!",sFirst,sLast))
+    End_Function
+    
+    Procedure SayHello
+        String sMsg
+        Get HelloMsg to sMsg
+        Showln sMsg
+    End_Procedure
+End_Class
+
+Class cEmpl is a cPerson
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+        Property String psFunction ""
+    End_Procedure
+    
+    Function HelloMsg Returns String
+        String sFunction sMsg
+        Forward Get HelloMsg to sMsg
+        
+        Get psFunction to sFunction
+        
+        Function_Return (sFunction+", "+sMsg)
+    End_Function
+End_Class
+
+Procedure DemoDynamic
+    Handle hoStephen
+    
+    Get Create (RefClass(cEmpl)) to hoStephen
+    Set psFirstName of hoStephen to "Stephen"
+    Set psLastName of hoStephen to "Stephenson"
+    Set psFunction of hoStephen to "Vice President"
+    
+    Send SayHello of hoStephen
+    
+    Send Destroy of hoStephen
+End_Procedure
+
+Send DemoDynamic
+
+//Object oHarm is a cEmpl
+//    Set psFirstName to "Harm"
+//    Set psLastName to "Harmness"
+//    Set psFunction to "CEO"
+//End_Object
+//
+//Object oJohn is a cPerson
+//    Set psFirstName to "John"
+//    Set psLastName to "Johnson"
+//End_Object
+//
+//Send SayHello of oJohn
+//Send SayHello of oHarm
+Send Info_Box "K‚sz"

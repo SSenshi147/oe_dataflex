@@ -1,0 +1,24 @@
+// 2021.02.17. - I7GFZK
+
+Use DfAllEnt.pkg
+
+Function SzorzasOttel Integer iVal Returns Integer
+//    Integer iRet
+//    Move (5*iVal) to iRet
+//    Function_Return iRet
+    Function_Return (5*iVal)
+End_Function
+
+Procedure UppercaseDesc String ByRef sDesc
+    Move (Uppercase(sDesc)) to sDesc
+End_Procedure
+ 
+Procedure Feladat Integer iNum String sDesc
+    Get SzorzasOttel iNum to iNum
+    Move (SzorzasOttel(Self,iNum)) to iNum
+    Send UppercaseDesc (&sDesc)
+    Send Info_Box (SFormat("Feladat: %1, %2", iNum, sDesc)) "Hello"
+End_Procedure
+ 
+Send Feladat 4 "Valami"
+Send Feladat 42 "Valami m s"
