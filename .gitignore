@@ -1,0 +1,25 @@
+#Exclude the following files for DataFlex Projects
+####################################
+*.exe
+*.dbg
+*.exe.manifest
+webapp.log
+*.dep
+*.fld
+*.pbg
+*.pdp
+*.pkd
+*.prp
+*.err
+*.cch
+*.bak
+studiometadata.mtd
+workspace.loc
+
+vssver2.scc
+nppbackup
+
+#personal preference
+####################################
+*.prn
+*.dsk
