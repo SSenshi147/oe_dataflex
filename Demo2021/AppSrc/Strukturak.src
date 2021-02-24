@@ -1,0 +1,55 @@
+// 2021.02.24. - I7GFZK
+
+Use DfAllEnt.pkg
+Use cJsonObject.pkg
+
+Struct stOrder
+    Integer iId
+    Date dDate
+    Number nTotal
+End_Struct
+
+Struct stCustomer
+    Integer iId
+    String sName
+    String sCity 
+    stOrder[] aOrders
+End_Struct
+
+Procedure DemoStruct
+    stCustomer tCust
+    
+    Move 12 to tCust.iId
+    Move "Data Access" to tCust.sName
+    Move "Miami" to tCust.sCity
+    
+    Move 3 to tCust.aOrders[0].iId
+    Move (DateSet(2021,02,24)) to tCust.aOrders[0].dDate
+    Move 129.99 to tCust.aOrders[0].nTotal
+    
+    Move 2 to tCust.aOrders[1].iId
+    Move (DateSet(2021,02,25)) to tCust.aOrders[1].dDate
+    Move 256.86 to tCust.aOrders[1].nTotal
+    
+    Move 1 to tCust.aOrders[2].iId
+    Move (DateSet(2021,02,23)) to tCust.aOrders[2].dDate
+    Move 320.15 to tCust.aOrders[2].nTotal
+    
+    Move (SortArray(tCust.aOrders)) to tCust.aOrders
+    Send DisplayCustomer tCust
+End_Procedure
+
+Procedure DisplayCustomer stCustomer tCust
+    Handle hoJson
+    String sResult
+    
+    Get Create (RefClass(cJsonObject)) to hoJson
+    Send DataTypeToJson of hoJson tCust
+    Set peWhiteSpace of hoJson to jpWhitespace_Pretty
+    Get Stringify of hoJson to sResult
+    Send Destroy hoJson
+    Send Info_Box sResult
+End_Procedure
+
+Send DemoStruct
+// Send Info_Box "done"
