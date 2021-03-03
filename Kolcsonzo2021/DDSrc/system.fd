@@ -1,0 +1,6 @@
+#REPLACE FILE2 system
+#REPLACE system.Recnum |FN2,0
+#REPLACE system.emberid |FN2,1
+#REPLACE system.mediaid |FN2,2
+#REPLACE system.berloid |FN2,3
+#REPLACE system.lapid |FN2,4

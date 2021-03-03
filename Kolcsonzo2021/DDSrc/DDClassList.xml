@@ -12,5 +12,49 @@
 				</DDClass>
 			</DDClasses>
 		</Table>
+		<Table>
+			<tableNumber>2</tableNumber>
+			<tableName>system</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>csystemDataDictionary</className>
+					<classFile>csystemDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
+		<Table>
+			<tableNumber>3</tableNumber>
+			<tableName>media</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>cmediaDataDictionary</className>
+					<classFile>cmediaDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
+		<Table>
+			<tableNumber>4</tableNumber>
+			<tableName>berlo</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>cberloDataDictionary</className>
+					<classFile>cberloDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
+		<Table>
+			<tableNumber>5</tableNumber>
+			<tableName>lap</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>clapDataDictionary</className>
+					<classFile>clapDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
 	</Tables>
 </DataDictionaryList>

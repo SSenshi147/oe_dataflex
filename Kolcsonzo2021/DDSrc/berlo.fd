@@ -1,0 +1,9 @@
+#REPLACE FILE4 berlo
+#REPLACE berlo.Recnum |FN4,0
+#REPLACE berlo.id |FN4,1
+#REPLACE berlo.nev |FS4,2
+#REPLACE berlo.cim |FS4,3
+#REPLACE berlo.varos |FS4,4
+#REPLACE berlo.irszam |FS4,5
+#REPLACE berlo.tel |FS4,6
+#REPLACE berlo.adoszam |FS4,7

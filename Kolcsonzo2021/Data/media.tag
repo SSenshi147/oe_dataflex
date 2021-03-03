@@ -1,0 +1,9 @@
+mediaid
+nev
+szerzo
+tipus
+datum
+ar
+megj
+emberid
+ev

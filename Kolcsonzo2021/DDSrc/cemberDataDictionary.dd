@@ -1,6 +1,10 @@
 Use DataDict.pkg
 
 Open ember
+Open system
+Open media
+
+Register_Object ember_sl
 
 Class cemberDataDictionary is a DataDictionary
     
@@ -8,11 +12,53 @@ Class cemberDataDictionary is a DataDictionary
         Forward Send Construct_Object
         Set Main_File to ember.File_Number
 
+        Set Add_Client_File to media.File_Number
+
+        Set Add_System_File to system.File_Number DD_Lock_On_All
+
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
+        Set Field_Label_Long Field ember.ID to "Azonos¡t¢"
+        Set Field_Label_Short Field ember.ID to "Azon."
+        Set Status_Help Field ember.ID to "Emberek azonos¡t¢ja (automatikusan osztjuk ki), ne ¡rd  t!"
+        Set Key_Field_State Field ember.ID to True
+        Set Field_Auto_Increment Field ember.ID to File_Field system.emberid
+        Set Field_Prompt_Object Field ember.ID to ember_sl
+
+        Set Field_Label_Long Field ember.NEV to "N‚v"
+        Set Field_Label_Short Field ember.NEV to "N‚v"
+        Set Status_Help Field ember.NEV to "Ember neve"
+        Set Field_Option Field ember.NEV DD_CAPSLOCK to True
+        Set Field_Option Field ember.NEV DD_REQUIRED to True
+        Set Field_Prompt_Object Field ember.NEV to ember_sl
+
+        Set Field_Label_Long Field ember.CIM to "C¡m"
+        Set Field_Label_Short Field ember.CIM to "C¡m"
+        Set Status_Help Field ember.CIM to "Utca, h zsz m, stb."
+        Set Field_Option Field ember.CIM DD_REQUIRED to True
+
+        Set Field_Label_Short Field ember.IRSZAM to "Irsz."
+        Set Field_Label_Long Field ember.IRSZAM to "Ir ny¡t¢sz m"
+        Set Field_Option Field ember.IRSZAM DD_REQUIRED to True
+
+        Set Field_Mask Field ember.TEL to "+##-##-###-####"
+        Set Field_Label_Long Field ember.TEL to "Telefonsz m"
+        Set Field_Label_Short Field ember.TEL to "Tel."
+
+        Set Field_Label_Long Field ember.EMAIL to "E-mail"
+        Set Field_Label_Short Field ember.EMAIL to "E-mail"
+
+        Set Field_Label_Long Field ember.MEGJ to "Megjegyz‚s"
+        Set Field_Label_Short Field ember.MEGJ to "Megj."
+
     End_Procedure
 
 End_Class
+
+#IFDEF Is$WebApp
+#ELSE
+Use ember.sl
+#ENDIF

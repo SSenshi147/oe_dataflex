@@ -4,3 +4,7 @@ Version=19.1
 ConfigFile=.\Programs\Config.ws
 [Preferences]
 DefaultFormHeight=12
+[Conditionals]
+Is$WebApp=False
+[Projects]
+Project0=Kolcsonzo.src
