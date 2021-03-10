@@ -1,0 +1,3 @@
+irszam
+varosok
+megye

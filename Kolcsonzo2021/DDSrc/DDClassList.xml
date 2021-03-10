@@ -56,5 +56,27 @@
 				</DDClass>
 			</DDClasses>
 		</Table>
+		<Table>
+			<tableNumber>6</tableNumber>
+			<tableName>laptetel</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>claptetelDataDictionary</className>
+					<classFile>claptetelDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
+		<Table>
+			<tableNumber>7</tableNumber>
+			<tableName>varosok</tableName>
+			<DDClasses>
+				<DDClass>
+					<className>cvarosokDataDictionary</className>
+					<classFile>cvarosokDataDictionary.dd</classFile>
+					<preferred>true</preferred>
+				</DDClass>
+			</DDClasses>
+		</Table>
 	</Tables>
 </DataDictionaryList>

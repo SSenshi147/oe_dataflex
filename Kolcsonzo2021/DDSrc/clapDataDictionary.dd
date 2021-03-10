@@ -3,12 +3,25 @@ Use DataDict.pkg
 Open lap
 Open system
 Open berlo
+Open laptetel
+
+Object oLap_StatusVT is a DescriptionValidationTable
+    Procedure Fill_List
+        Forward Send Fill_List
+        Send Add_Table_Value "0" "R”gz¡t‚s alatt"
+        Send Add_Table_Value "1" "B‚rlo elvitte"
+        Send Add_Table_Value "2" "B‚rlo bizony m r visszahozta"
+        Send Add_Table_Value "9" "T”r”lt"
+    End_Procedure
+End_Object
 
 Class clapDataDictionary is a DataDictionary
     
     Procedure Construct_Object
         Forward Send Construct_Object
         Set Main_File to lap.File_Number
+
+        Set Add_Client_File to laptetel.File_Number
 
         Set Add_Server_File to berlo.File_Number
 
@@ -21,6 +34,21 @@ Class clapDataDictionary is a DataDictionary
 
         Set Key_Field_State Field lap.lapid to True
         Set Field_Auto_Increment Field lap.lapid to File_Field system.lapid
+
+        Set Field_Class_Name Field lap.status to "Combo"
+        Set Field_Value_Table Field lap.status to oLap_StatusVT
+
+        Set Field_Option Field lap.osszertek DD_DISPLAYONLY to True
+
+        Set Field_Option Field lap.osszmenny DD_DISPLAYONLY to True
+
+        Set Field_Option Field lap.crdt DD_DISPLAYONLY to True
+
+        Set Field_Option Field lap.crtime DD_DISPLAYONLY to True
+
+        Set Field_Option Field lap.lmdt DD_DISPLAYONLY to True
+
+        Set Field_Option Field lap.lmtime DD_DISPLAYONLY to True
 
     End_Procedure
 

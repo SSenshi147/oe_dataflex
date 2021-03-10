@@ -121,6 +121,17 @@ Object oMain is a Panel
                         Send Activate_oMediarogz of hoClient
                     End_Procedure
                 End_Object
+
+                Object oVarosokbetoltMenuItem is a cCJMenuItem
+                    Set psCaption to "Varosokbetolt"
+                    Set psTooltip to "Varosokbetolt"
+                
+                    Procedure OnExecute Variant vCommandBarControl
+                        Handle hoClient
+                        Get Client_Id to hoClient
+                        Send Activate_oVarosokbetolt of hoClient
+                    End_Procedure
+                End_Object
             End_Object
             
             Object oReportMenu is a cCJMenuItem
@@ -334,6 +345,7 @@ Object oMain is a Panel
         Use StdAbout.pkg
         Use Emberek.vw
         Use Mediarogz.vw
+        Use Varosokbetolt.vw
 
         Procedure Activate_About
             Send DoAbout "" "" "" "" ""
