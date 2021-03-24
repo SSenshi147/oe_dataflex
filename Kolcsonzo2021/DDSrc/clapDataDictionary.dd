@@ -15,6 +15,8 @@ Object oLap_StatusVT is a DescriptionValidationTable
     End_Procedure
 End_Object
 
+Register_Object lap_sl
+
 Class clapDataDictionary is a DataDictionary
     
     Procedure Construct_Object
@@ -34,6 +36,7 @@ Class clapDataDictionary is a DataDictionary
 
         Set Key_Field_State Field lap.lapid to True
         Set Field_Auto_Increment Field lap.lapid to File_Field system.lapid
+        Set Field_Prompt_Object Field lap.lapid to lap_sl
 
         Set Field_Class_Name Field lap.status to "Combo"
         Set Field_Value_Table Field lap.status to oLap_StatusVT
@@ -51,5 +54,64 @@ Class clapDataDictionary is a DataDictionary
         Set Field_Option Field lap.lmtime DD_DISPLAYONLY to True
 
     End_Procedure
+    
+    Procedure Save_Main_File
+        Boolean bChanged
+        Integer iFile
+        Get Main_File to iFile
+        Get_Attribute DF_FILE_CHANGED of iFile to bChanged
+        If (bChanged) Begin
+            Sysdate lap.lmdt
+            //Move (Ido_belyeg_csakido()) to lap.lmtime
+        End
+      
+        
+        Forward Send Save_Main_File
+    End_Procedure
+
+    Procedure Creating
+        Forward Send Creating
+        Sysdate lap.crdt
+        //Move (Ido_belyeg_csakido()) to lap.crtime
+    End_Procedure
+
+    Procedure Field_Defaults
+        Forward Send Field_Defaults
+        Set Field_Changed_Value Field lap.status to "0"
+    End_Procedure
+    
+    Function Validate_Save Returns Integer
+        Integer iRetVal
+        Forward Get Validate_Save to iRetVal
+        
+        If (not(iRetVal)) Begin
+            If (lap.status eq "1") Begin
+                If (lap.kezdat eq "") Begin
+                    Error 503 "Kezd‚s d um t meg kell adni"
+                    Move 503 to iRetVal
+                End
+                If (lap.kiado eq "") Begin
+                    Error 504 "Kiad¢ kell"
+                    Move 504 to iRetVal
+                End
+            End
+            
+             If (lap.status eq "2") Begin
+                If (lap.vegdat eq "") Begin
+                    Error 505 "V‚ge d um t meg kell adni"
+                    Move 505 to iRetVal
+                End
+                If (lap.bevevo eq "") Begin
+                    Error 506 "Bevevo kell"
+                    Move 506 to iRetVal
+                End
+            End
+        End
+    End_Function
 
 End_Class
+
+#IFDEF Is$WebApp
+#ELSE
+Use lap.sl
+#ENDIF

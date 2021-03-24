@@ -18,6 +18,64 @@ Class claptetelDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
+        Set Field_Option Field laptetel.crdt DD_DISPLAYONLY to True
+
+        Set Field_Option Field laptetel.crtime DD_DISPLAYONLY to True
+
+        Set Field_Option Field laptetel.lmdt DD_DISPLAYONLY to True
+
+        Set Field_Option Field laptetel.lmtime DD_DISPLAYONLY to True
+
+    End_Procedure
+
+    Procedure Backout
+        Forward Send Backout
+        Move (lap.osszmenny-laptetel.menny) to lap.osszmenny
+        Move (lap.osszertek-(laptetel.ar*laptetel.menny)) to lap.osszertek
+    End_Procedure
+
+    Procedure Update
+        Forward Send Update
+        Move (lap.osszmenny+laptetel.menny) to lap.osszmenny
+        Move (lap.osszertek+(laptetel.ar*laptetel.menny)) to lap.osszertek
+    End_Procedure
+
+    Function Validate_Save Returns Integer
+        Integer iRetVal
+        Forward Get Validate_Save to iRetVal
+        
+        If (not(iRetVal)) Begin
+            If (laptetel.menny < 0) Begin
+                Error 501 "Mennyis‚g nem lehet negat¡v"
+                Move 501 to iRetVal
+            End
+            If (laptetel.ar < 0) Begin
+                Error 502 "Ar nem lehet negat¡v"
+                Move 502 to iRetVal
+            End
+        End
+        
+        Function_Return iRetVal
+    End_Function
+
+    Procedure Save_Main_File
+        Boolean bChanged
+        Integer iFile
+        Get Main_File to iFile
+        Get_Attribute DF_FILE_CHANGED of iFile to bChanged
+        If (bChanged) Begin
+            Sysdate laptetel.lmdt
+            //Move (Ido_belyeg_csakido()) to laptetel.lmtime
+        End
+      
+        
+        Forward Send Save_Main_File
+    End_Procedure
+
+    Procedure Creating
+        Forward Send Creating
+        Sysdate laptetel.crdt
+        //Move (Ido_belyeg_csakido()) to laptetel.crtime
     End_Procedure
 
 End_Class

@@ -4,6 +4,8 @@ Open berlo
 Open system
 Open lap
 
+Register_Object berlo_sl
+
 Class cberloDataDictionary is a DataDictionary
     
     Procedure Construct_Object
@@ -21,7 +23,15 @@ Class cberloDataDictionary is a DataDictionary
 
         Set Key_Field_State Field berlo.id to True
         Set Field_Auto_Increment Field berlo.id to File_Field system.berloid
+        Set Field_Prompt_Object Field berlo.id to berlo_sl
+
+        Set Field_Prompt_Object Field berlo.nev to berlo_sl
 
     End_Procedure
 
 End_Class
+
+#IFDEF Is$WebApp
+#ELSE
+Use berlo.sl
+#ENDIF

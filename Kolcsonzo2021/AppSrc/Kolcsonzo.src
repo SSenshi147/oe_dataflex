@@ -132,6 +132,28 @@ Object oMain is a Panel
                         Send Activate_oVarosokbetolt of hoClient
                     End_Procedure
                 End_Object
+
+                Object oBrlokarbantartsaMenuItem is a cCJMenuItem
+                    Set psCaption to "B‚rlo karbantart sa"
+                    Set psTooltip to "B‚rlo karbantart sa"
+                
+                    Procedure OnExecute Variant vCommandBarControl
+                        Handle hoClient
+                        Get Client_Id to hoClient
+                        Send Activate_oBerlo_rogz of hoClient
+                    End_Procedure
+                End_Object
+
+                Object oKlcsnzsilapMenuItem is a cCJMenuItem
+                    Set psCaption to "K”lcs”nz‚si lap"
+                    Set psTooltip to "K”lcs”nz‚si lap"
+                
+                    Procedure OnExecute Variant vCommandBarControl
+                        Handle hoClient
+                        Get Client_Id to hoClient
+                        Send Activate_oKolcsonzesilap of hoClient
+                    End_Procedure
+                End_Object
             End_Object
             
             Object oReportMenu is a cCJMenuItem
@@ -346,6 +368,8 @@ Object oMain is a Panel
         Use Emberek.vw
         Use Mediarogz.vw
         Use Varosokbetolt.vw
+        Use Berlo_rogz.vw
+        Use Kolcsonzesilap.vw
 
         Procedure Activate_About
             Send DoAbout "" "" "" "" ""
