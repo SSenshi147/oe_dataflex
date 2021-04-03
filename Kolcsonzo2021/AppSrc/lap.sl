@@ -21,7 +21,37 @@ CD_Popup_Object lap_sl is a dbModalPanel
     End_Object 
 
     Object olap_DD is a clapDataDictionary
-        Set DDO_Server To oberlo_DD
+        Set DDO_Server to oberlo_DD
+        
+        Set pbUseDDSQLFilters to True
+        
+        
+        Procedure OnConstrain
+                      
+            String sStatus sSqlFilter sFieldname
+            Get SQLStrFileFieldName (RefTable(lap.status)) to sFieldname
+            Get Value of oComboForm1 to sStatus
+            If (sStatus ne "") Begin
+                If (sStatus eq "R”gz¡t‚s alatt") Begin
+                    //Constrain lap.status eq "0"
+                    Move (sFieldname + "='0'") to sSqlFilter
+                End
+                If (sStatus eq "B‚rlo elvitte") Begin
+                    //Constrain lap.status eq "1"
+                    Move (sFieldname + "='1'") to sSqlFilter
+                End
+                If (sStatus eq "B‚rlo visszahozta") Begin
+                    //Constrain lap.status eq "2"
+                    Move (sFieldname + "='2'") to sSqlFilter
+                End
+                If (sStatus eq "T”r”lt") Begin
+                    //Constrain lap.status eq "9"
+                    Move (sFieldname + "='9'") to sSqlFilter
+                End
+                
+                Set psSQLFilter to sSqlFilter //szur‚sfelt‚tel be ll¡t sa
+            End
+        End_Procedure
     End_Object 
 
     Set Main_DD To olap_DD
@@ -35,7 +65,7 @@ CD_Popup_Object lap_sl is a dbModalPanel
         Set peAnchors to anAll
         Set psLayoutSection to "lap_sl_oSelList"
         Set Ordering to 1
-        Set pbAutoServer to True
+        // Set pbAutoServer to True
 
         Object olap_lapid is a cDbCJGridColumn
             Entry_Item lap.lapid
@@ -109,6 +139,43 @@ CD_Popup_Object lap_sl is a dbModalPanel
         End_Procedure
 
     End_Object 
+
+    Object oComboForm1 is a ComboForm
+        Set Size to 12 160
+        Set Location to 116 57
+        Set Label to "St tusz"
+        Set Label_Col_Offset to 0
+        Set Label_Justification_Mode to JMode_Right
+        // Combo_Fill_List is called when the list needs filling
+      
+        Procedure Combo_Fill_List
+            // Fill the combo list with Send Combo_Add_Item
+            Send Combo_Add_Item "R”gz¡t‚s alatt"
+            Send Combo_Add_Item "B‚rlo elvitte"
+            Send Combo_Add_Item "B‚rlo visszahozta"
+            Send Combo_Add_Item "T”r”lt"
+        End_Procedure
+      
+        // OnChange is called on every changed character
+     
+        Procedure OnChange
+        //    String sValue
+        
+            //Get Value to sValue // the current selected item
+            Send Rebuild_Constraints of olap_DD
+            Send MoveToFirstRow of oSelList
+        End_Procedure
+      
+        // Notification that the list has dropped down
+     
+    //    Procedure OnDropDown
+    //    End_Procedure
+    
+        // Notification that the list was closed
+      
+    //    Procedure OnCloseUp
+    //    End_Procedure
+    End_Object
 
     On_Key Key_Alt+Key_O Send KeyAction of oOk_bn
     On_Key Key_Alt+Key_C Send KeyAction of oCancel_bn

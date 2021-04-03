@@ -1,5 +1,7 @@
 Use DataDict.pkg
 
+Use myfunctions.pkg
+
 Open lap
 Open system
 Open berlo
@@ -10,7 +12,7 @@ Object oLap_StatusVT is a DescriptionValidationTable
         Forward Send Fill_List
         Send Add_Table_Value "0" "R”gz¡t‚s alatt"
         Send Add_Table_Value "1" "B‚rlo elvitte"
-        Send Add_Table_Value "2" "B‚rlo bizony m r visszahozta"
+        Send Add_Table_Value "2" "B‚rlo visszahozta"
         Send Add_Table_Value "9" "T”r”lt"
     End_Procedure
 End_Object
@@ -62,7 +64,7 @@ Class clapDataDictionary is a DataDictionary
         Get_Attribute DF_FILE_CHANGED of iFile to bChanged
         If (bChanged) Begin
             Sysdate lap.lmdt
-            //Move (Ido_belyeg_csakido()) to lap.lmtime
+            Move (Ido_belyeg(Self)) to lap.lmtime
         End
       
         
@@ -72,7 +74,7 @@ Class clapDataDictionary is a DataDictionary
     Procedure Creating
         Forward Send Creating
         Sysdate lap.crdt
-        //Move (Ido_belyeg_csakido()) to lap.crtime
+        Move (Ido_belyeg(Self)) to lap.crtime
     End_Procedure
 
     Procedure Field_Defaults

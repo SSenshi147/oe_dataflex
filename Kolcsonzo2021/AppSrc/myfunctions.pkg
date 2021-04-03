@@ -1,0 +1,16 @@
+// i7gfzk
+Function Ido_belyeg Returns String
+    Date dDat
+    Integer iOra iPerc iSec
+    String sOra sPerc sSec
+    
+    Sysdate dDat iOra iPerc iSec
+    
+    Move iOra to sOra
+    If (iOra < 10) Move ("0" + sOra) to sOra
+    Move iPerc to sPerc
+    If (iPerc < 10) Move ("0" + sPerc) to sPerc
+    Move iSec to sSec
+    If (iSec < 10) Move ("0" + sSec) to sSec
+    Function_Return (sOra + ":" + sPerc + ":" + sSec)
+End_Function
