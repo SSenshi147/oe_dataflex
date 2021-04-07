@@ -5,12 +5,15 @@ Use myfunctions.pkg
 Open laptetel
 Open lap
 Open media
+Open havi
 
 Class claptetelDataDictionary is a DataDictionary
     
     Procedure Construct_Object
         Forward Send Construct_Object
         Set Main_File to laptetel.File_Number
+
+        Set Add_System_File to havi.File_Number DD_Lock_On_All
 
         Set Add_Server_File to lap.File_Number
         Set Add_Server_File to media.File_Number
@@ -31,15 +34,31 @@ Class claptetelDataDictionary is a DataDictionary
     End_Procedure
 
     Procedure Backout
+        Date dMa
         Forward Send Backout
         Move (lap.osszmenny-laptetel.menny) to lap.osszmenny
         Move (lap.osszertek-(laptetel.ar*laptetel.menny)) to lap.osszertek
+        
+        Sysdate dMa
+        Clear havi
+        Move (String(DateGetYear(laptetel.crdt))+String(DateGetMonth(laptetel.crdt))) to havi.evho
+        Find eq havi by Index.1
+        Move (havi.osszmenny-laptetel.menny) to havi.osszmenny
+        Move (havi.osszertek-(laptetel.menny*laptetel.ar)) to havi.osszertek
+        SaveRecord havi
     End_Procedure
 
     Procedure Update
         Forward Send Update
         Move (lap.osszmenny+laptetel.menny) to lap.osszmenny
         Move (lap.osszertek+(laptetel.ar*laptetel.menny)) to lap.osszertek
+        
+        Clear havi
+        Move (String(DateGetYear(laptetel.crdt))+String(DateGetMonth(laptetel.crdt))) to havi.evho
+        Find eq havi by Index.1
+        Move (havi.osszmenny+laptetel.menny) to havi.osszmenny
+        Move (havi.osszertek+(laptetel.menny*laptetel.ar)) to havi.osszertek
+        SaveRecord havi
     End_Procedure
 
     Function Validate_Save Returns Integer

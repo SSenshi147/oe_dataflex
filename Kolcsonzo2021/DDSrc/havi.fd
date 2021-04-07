@@ -1,0 +1,5 @@
+#REPLACE FILE8 havi
+#REPLACE havi.File_Number |CI8
+#REPLACE havi.evho |FS8,1
+#REPLACE havi.osszmenny |FN8,2
+#REPLACE havi.osszertek |FN8,3
