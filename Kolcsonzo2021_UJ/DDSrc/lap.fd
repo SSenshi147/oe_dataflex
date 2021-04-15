@@ -1,0 +1,15 @@
+#REPLACE FILE5 lap
+#REPLACE lap.Recnum |FN5,0
+#REPLACE lap.lapid |FN5,1
+#REPLACE lap.berlo |FN5,2
+#REPLACE lap.kezdat |FD5,3
+#REPLACE lap.vegdat |FD5,4
+#REPLACE lap.kiado |FS5,5
+#REPLACE lap.bevevo |FS5,6
+#REPLACE lap.status |FS5,7
+#REPLACE lap.osszertek |FN5,8
+#REPLACE lap.osszmenny |FN5,9
+#REPLACE lap.crdt |FD5,10
+#REPLACE lap.crtime |FS5,11
+#REPLACE lap.lmdt |FD5,12
+#REPLACE lap.lmtime |FS5,13

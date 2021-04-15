@@ -1,0 +1,322 @@
+﻿Use VdfBase.pkg
+use SQLDatatypes.h.pkg
+
+Define C_DR_OCX_VERSION    for "8.0"
+#IFDEF IS$WIN64
+Define C_DR_OCX_NAME       for "DataFlex Reports 2021 Developer Edition API64.ocx"
+#ELSE
+Define C_DR_OCX_NAME       for "DataFlex Reports 2021 Developer Edition API32.ocx"
+#ENDIF
+
+Define DFERR_DATAFLEX_REPORTS for 4425
+
+// Comes from CLI.PKG
+Define DF_FILE_TABLE_NAME for 609
+
+#IFDEF MSG_ADDUSERERROR
+    Send AddUserError of Error_Object_Id DFERR_DATAFLEX_REPORTS
+#ENDIF
+
+Define C_USEMAINDRREPORTID for ""
+
+Struct tReportFunctionId
+    String sReportId
+    Integer iFunction
+End_Struct
+
+Struct tReportParameterId
+    String sReportId
+    Integer iParameter
+End_Struct
+
+Struct tDRTableName
+    String sReportId
+    Integer iTable
+    String sTableName
+End_Struct
+
+Struct tDRParameter
+    String sName
+    Integer iType
+    Integer iLength
+    Integer iPrecision
+End_Struct
+
+Struct tDRFunctionErrorInfo
+    String sReportId
+    Integer iFunctionId
+    String sError
+End_Struct
+
+// Same as tDataSourceRow but struct not available in Web projects.
+Struct tDRDataSourceRow
+    RowID riID
+    Boolean bNewRow
+    Variant vTag
+    String[] sValue
+End_Struct
+
+// Group tree location or not (Windows Only)
+Enum_List
+    Define C_DR_GROUPTREE_NONE
+    Define C_DR_GROUPTREE_LEFT
+    Define C_DR_GROUPTREE_RIGHT
+End_Enum_List
+
+Define C_DR_SUBREPORT_IMPORT_SUCCESS                    for 0
+Define C_DR_SUBREPORT_IMPORT_BUSY                       for -1
+Define C_DR_SUBREPORT_IMPORT_MAINREPORT_NOT_FOUND       for -2
+Define C_DR_SUBREPORT_IMPORT_SUBREPORT_NOT_FOUND        for -3
+Define C_DR_SUBREPORT_IMPORT_CANNOT_OPEN_FILE           for -4
+Define C_DR_SUBREPORT_IMPORT_CANNOT_PREPARE_SUBREPORT   for -5
+
+Define LOCALE_ALLOW_NEUTRAL_NAMES   for |CI$08000000 // Flag to allow returning neutral names/lcids for name conversion
+Define LOCALE_SENGLISHLANGUAGENAME  for |CI$00001001 // English name of language, eg "German"
+
+External_Function DR_WinAPI_LocaleNameToLCID "LocaleNameToLCID" Kernel32.dll Pointer pName UInteger dwFlags Returns Integer
+External_Function DR_WinAPI_LICDToLocaleName "LCIDToLocaleName" Kernel32.dll Integer iLocale Pointer pName Integer iLength UInteger dwFlags Returns Integer
+External_Function DR_WinAPI_EnumProcessModules "EnumProcessModules" Psapi.Dll Handle hProcess Address lphModule Integer cb Pointer lpcbNeeded Returns Integer
+External_Function DR_WinAPI_GetCurrentProcessId "GetCurrentProcessId" Kernel32.Dll Returns Integer
+External_Function DR_WinAPI_OpenProcess "OpenProcess" Kernel32.Dll DWord dwDesiredAccess Boolean bInheritHandle DWord dwProcessId Returns Handle
+External_Function DR_WinAPI_CloseHandle "CloseHandle" Kernel32.Dll Handle hObject Returns Integer
+External_Function DR_WinAPI_PathIsDirectory "PathIsDirectoryW" SHLWAPI.DLL Pointer lpszPath Returns Integer
+External_Function DR_WinAPI_IsZoomed "IsZoomed" User32.dll Handle hWnd Returns Boolean
+External_Function DR_WinAPI_DefWindowProc "DefWindowProcW" user32.dll Handle hWnd UInteger uiMsg Longptr wParam Longptr lParam Returns Integer
+External_Function DR_WINAPI_GetUpdateRect "GetUpdateRect" user32.dll Handle hWnd Pointer lpRect Boolean bErase Returns Boolean
+External_Function DR_WINAPI_SetDCBrushColor "SetDCBrushColor" gdi32.dll Handle hdc Integer crColor Returns Integer
+External_Function DR_WINAPI_SetParent "SetParent" user32.dll Handle hwndChild Handle hwndNewParent Returns Integer
+External_Function DR_WinAPI_PathFindExtension "PathFindExtensionW" SHLWAPI.DLL Pointer lpszPath Returns Pointer
+External_Function DR_WinAPI_PathFindFileName "PathFindFileNameW" SHLWAPI.DLL Pointer lpszPath Returns Pointer
+
+Define PROCESS_TERMINATE         for |CI$0001
+Define PROCESS_CREATE_THREAD     for |CI$0002
+Define PROCESS_SET_SESSIONID     for |CI$0004
+Define PROCESS_VM_OPERATION      for |CI$0008
+Define PROCESS_VM_READ           for |CI$0010
+Define PROCESS_VM_WRITE          for |CI$0020
+Define PROCESS_DUP_HANDLE        for |CI$0040
+Define PROCESS_CREATE_PROCESS    for |CI$0080
+Define PROCESS_SET_QUOTA         for |CI$0100
+Define PROCESS_SET_INFORMATION   for |CI$0200
+Define PROCESS_QUERY_INFORMATION for |CI$0400
+Define PROCESS_ALL_ACCESS        for (STANDARD_RIGHTS_REQUIRED ior SYNCHRONIZE ior |CI$FFFF)
+
+// Language definitions
+Define LANG_NEUTRAL                 for |CI$0
+Define LANG_DEFAULT                 for LANG_NEUTRAL
+Define LANG_AFRIKAANS               for |CI$36
+Define LANG_ALBANIAN                for |CI$1c
+Define LANG_ARABIC                  for |CI$01
+Define LANG_ARMENIAN                for |CI$2b
+Define LANG_ASSAMESE                for |CI$4d
+Define LANG_AZERI                   for |CI$2c
+Define LANG_BASQUE                  for |CI$2d
+Define LANG_BELARUSIAN              for |CI$23
+Define LANG_BENGALI                 for |CI$45
+Define LANG_BULGARIAN               for |CI$02
+Define LANG_CATALAN                 for |CI$03
+Define LANG_CHINESE                 for |CI$04
+Define LANG_CROATIAN                for |CI$1a
+Define LANG_CZECH                   for |CI$05
+Define LANG_DANISH                  for |CI$06
+Define LANG_DIVEHI                  for |CI$65
+Define LANG_DUTCH                   for |CI$13
+Define LANG_ENGLISH                 for |CI$09
+Define LANG_ESTONIAN                for |CI$25
+Define LANG_FAEROESE                for |CI$38
+Define LANG_FARSI                   for |CI$29
+Define LANG_FINNISH                 for |CI$0b
+Define LANG_FRENCH                  for |CI$0c
+Define LANG_GALICIAN                for |CI$56
+Define LANG_GEORGIAN                for |CI$37
+Define LANG_GERMAN                  for |CI$07
+Define LANG_GREEK                   for |CI$08
+Define LANG_GUJARATI                for |CI$47
+Define LANG_HEBREW                  for |CI$0d
+Define LANG_HINDI                   for |CI$39
+Define LANG_HUNGARIAN               for |CI$0e
+Define LANG_ICELANDIC               for |CI$0f
+Define LANG_INDONESIAN              for |CI$21
+Define LANG_ITALIAN                 for |CI$10
+Define LANG_JAPANESE                for |CI$11
+Define LANG_KANNADA                 for |CI$4b
+Define LANG_KASHMIRI                for |CI$60
+Define LANG_KAZAK                   for |CI$3f
+Define LANG_KONKANI                 for |CI$57
+Define LANG_KOREAN                  for |CI$12
+Define LANG_KYRGYZ                  for |CI$40
+Define LANG_LATVIAN                 for |CI$26
+Define LANG_LITHUANIAN              for |CI$27
+Define LANG_MACEDONIAN              for |CI$2f
+Define LANG_MALAY                   for |CI$3e
+Define LANG_MALAYALAM               for |CI$4c
+Define LANG_MANIPURI                for |CI$58
+Define LANG_MARATHI                 for |CI$4e
+Define LANG_MONGOLIAN               for |CI$50
+Define LANG_NEPALI                  for |CI$61
+Define LANG_NORWEGIAN               for |CI$14
+Define LANG_ORIYA                   for |CI$48
+Define LANG_POLISH                  for |CI$15
+Define LANG_PORTUGUESE              for |CI$16
+Define LANG_PUNJABI                 for |CI$46
+Define LANG_ROMANIAN                for |CI$18
+Define LANG_RUSSIAN                 for |CI$19
+Define LANG_SANSKRIT                for |CI$4f
+Define LANG_SERBIAN                 for |CI$1a
+Define LANG_SINDHI                  for |CI$59
+Define LANG_SLOVAK                  for |CI$1b
+Define LANG_SLOVENIAN               for |CI$24
+Define LANG_SPANISH                 for |CI$0a
+Define LANG_SWAHILI                 for |CI$41
+Define LANG_SWEDISH                 for |CI$1d
+Define LANG_SYRIAC                  for |CI$5a
+Define LANG_TAMIL                   for |CI$49
+Define LANG_TATAR                   for |CI$44
+Define LANG_TELUGU                  for |CI$4a
+Define LANG_THAI                    for |CI$1e
+Define LANG_TURKISH                 for |CI$1f
+Define LANG_UKRAINIAN               for |CI$22
+Define LANG_URDU                    for |CI$20
+Define LANG_UZBEK                   for |CI$43
+Define LANG_VIETNAMESE              for |CI$2a
+
+//  Sublanguage IDs.
+//
+//  The name immediately following SUBLANG_ dictates which primary
+//  language ID that sublanguage ID can be combined with to form a
+//  valid language ID.
+//
+Define SUBLANG_NEUTRAL              for |CI$00    // language neutral
+Define SUBLANG_DEFAULT              for |CI$01    // user default
+Define SUBLANG_SYS_DEFAULT          for |CI$02    // system default
+
+Define SUBLANG_NEUTRAL                      for |CI$00 // language neutral
+Define SUBLANG_DEFAULT                      for |CI$01 // user default
+Define SUBLANG_SYS_DEFAULT                  for |CI$02 // system default
+Define SUBLANG_ARABIC_SAUDI_ARABIA          for |CI$01 // Arabic (Saudi Arabia)
+Define SUBLANG_ARABIC_IRAQ                  for |CI$02 // Arabic (Iraq)
+Define SUBLANG_ARABIC_EGYPT                 for |CI$03 // Arabic (Egypt)
+Define SUBLANG_ARABIC_LIBYA                 for |CI$04 // Arabic (Libya)
+Define SUBLANG_ARABIC_ALGERIA               for |CI$05 // Arabic (Algeria)
+Define SUBLANG_ARABIC_MOROCCO               for |CI$06 // Arabic (Morocco)
+Define SUBLANG_ARABIC_TUNISIA               for |CI$07 // Arabic (Tunisia)
+Define SUBLANG_ARABIC_OMAN                  for |CI$08 // Arabic (Oman)
+Define SUBLANG_ARABIC_YEMEN                 for |CI$09 // Arabic (Yemen)
+Define SUBLANG_ARABIC_SYRIA                 for |CI$0a // Arabic (Syria)
+Define SUBLANG_ARABIC_JORDAN                for |CI$0b // Arabic (Jordan)
+Define SUBLANG_ARABIC_LEBANON               for |CI$0c // Arabic (Lebanon)
+Define SUBLANG_ARABIC_KUWAIT                for |CI$0d // Arabic (Kuwait)
+Define SUBLANG_ARABIC_UAE                   for |CI$0e // Arabic (U.A.E)
+Define SUBLANG_ARABIC_BAHRAIN               for |CI$0f // Arabic (Bahrain)
+Define SUBLANG_ARABIC_QATAR                 for |CI$10 // Arabic (Qatar)
+Define SUBLANG_AZERI_LATIN                  for |CI$01 // Azeri (Latin)
+Define SUBLANG_AZERI_CYRILLIC               for |CI$02 // Azeri (Cyrillic)
+Define SUBLANG_CHINESE_TRADITIONAL          for |CI$01 // Chinese (Taiwan Region)
+Define SUBLANG_CHINESE_SIMPLIFIED           for |CI$02 // Chinese (PR China)
+Define SUBLANG_CHINESE_HONGKONG             for |CI$03 // Chinese (Hong Kong)
+Define SUBLANG_CHINESE_SINGAPORE            for |CI$04 // Chinese (Singapore)
+Define SUBLANG_CHINESE_MACAU                for |CI$05 // Chinese (Macau)
+Define SUBLANG_DUTCH                        for |CI$01 // Dutch
+Define SUBLANG_DUTCH_BELGIAN                for |CI$02 // Dutch (Belgian)
+Define SUBLANG_ENGLISH_US                   for |CI$01 // English (USA)
+Define SUBLANG_ENGLISH_UK                   for |CI$02 // English (UK)
+Define SUBLANG_ENGLISH_AUS                  for |CI$03 // English (Australian)
+Define SUBLANG_ENGLISH_CAN                  for |CI$04 // English (Canadian)
+Define SUBLANG_ENGLISH_NZ                   for |CI$05 // English (New Zealand)
+Define SUBLANG_ENGLISH_EIRE                 for |CI$06 // English (Irish)
+Define SUBLANG_ENGLISH_SOUTH_AFRICA         for |CI$07 // English (South Africa)
+Define SUBLANG_ENGLISH_JAMAICA              for |CI$08 // English (Jamaica)
+Define SUBLANG_ENGLISH_CARIBBEAN            for |CI$09 // English (Caribbean)
+Define SUBLANG_ENGLISH_BELIZE               for |CI$0a // English (Belize)
+Define SUBLANG_ENGLISH_TRINIDAD             for |CI$0b // English (Trinidad)
+Define SUBLANG_ENGLISH_ZIMBABWE             for |CI$0c // English (Zimbabwe)
+Define SUBLANG_ENGLISH_PHILIPPINES          for |CI$0d // English (Philippines)
+Define SUBLANG_FRENCH                       for |CI$01 // French
+Define SUBLANG_FRENCH_BELGIAN               for |CI$02 // French (Belgian)
+Define SUBLANG_FRENCH_CANADIAN              for |CI$03 // French (Canadian)
+Define SUBLANG_FRENCH_SWISS                 for |CI$04 // French (Swiss)
+Define SUBLANG_FRENCH_LUXEMBOURG            for |CI$05 // French (Luxembourg)
+Define SUBLANG_FRENCH_MONACO                for |CI$06 // French (Monaco)
+Define SUBLANG_GERMAN                       for |CI$01 // German
+Define SUBLANG_GERMAN_SWISS                 for |CI$02 // German (Swiss)
+Define SUBLANG_GERMAN_AUSTRIAN              for |CI$03 // German (Austrian)
+Define SUBLANG_GERMAN_LUXEMBOURG            for |CI$04 // German (Luxembourg)
+Define SUBLANG_GERMAN_LIECHTENSTEIN         for |CI$05 // German (Liechtenstein)
+Define SUBLANG_ITALIAN                      for |CI$01 // Italian
+Define SUBLANG_ITALIAN_SWISS                for |CI$02 // Italian (Swiss)
+Define SUBLANG_KASHMIRI_INDIA               for |CI$02 // Kashmiri (India)
+Define SUBLANG_KOREAN                       for |CI$01 // Korean (Extended Wansung)
+Define SUBLANG_LITHUANIAN                   for |CI$01 // Lithuanian
+Define SUBLANG_MALAY_MALAYSIA               for |CI$01 // Malay (Malaysia)
+Define SUBLANG_MALAY_BRUNEI_DARUSSALAM      for |CI$02 // Malay (Brunei Darussalam)
+Define SUBLANG_NEPALI_INDIA                 for |CI$02 // Nepali (India)
+Define SUBLANG_NORWEGIAN_BOKMAL             for |CI$01 // Norwegian (Bokmal)
+Define SUBLANG_NORWEGIAN_NYNORSK            for |CI$02 // Norwegian (Nynorsk)
+Define SUBLANG_PORTUGUESE                   for |CI$02 // Portuguese
+Define SUBLANG_PORTUGUESE_BRAZILIAN         for |CI$01 // Portuguese (Brazilian)
+Define SUBLANG_SERBIAN_LATIN                for |CI$02 // Serbian (Latin)
+Define SUBLANG_SERBIAN_CYRILLIC             for |CI$03 // Serbian (Cyrillic)
+Define SUBLANG_SPANISH                      for |CI$01 // Spanish (Castilian)
+Define SUBLANG_SPANISH_MEXICAN              for |CI$02 // Spanish (Mexican)
+Define SUBLANG_SPANISH_MODERN               for |CI$03 // Spanish (Modern)
+Define SUBLANG_SPANISH_GUATEMALA            for |CI$04 // Spanish (Guatemala)
+Define SUBLANG_SPANISH_COSTA_RICA           for |CI$05 // Spanish (Costa Rica)
+Define SUBLANG_SPANISH_PANAMA               for |CI$06 // Spanish (Panama)
+Define SUBLANG_SPANISH_DOMINICAN_REPUBLIC   for |CI$07 // Spanish (Dominican Republic)
+Define SUBLANG_SPANISH_VENEZUELA            for |CI$08 // Spanish (Venezuela)
+Define SUBLANG_SPANISH_COLOMBIA             for |CI$09 // Spanish (Colombia)
+Define SUBLANG_SPANISH_PERU                 for |CI$0a // Spanish (Peru)
+Define SUBLANG_SPANISH_ARGENTINA            for |CI$0b // Spanish (Argentina)
+Define SUBLANG_SPANISH_ECUADOR              for |CI$0c // Spanish (Ecuador)
+Define SUBLANG_SPANISH_CHILE                for |CI$0d // Spanish (Chile)
+Define SUBLANG_SPANISH_URUGUAY              for |CI$0e // Spanish (Uruguay)
+Define SUBLANG_SPANISH_PARAGUAY             for |CI$0f // Spanish (Paraguay)
+Define SUBLANG_SPANISH_BOLIVIA              for |CI$10 // Spanish (Bolivia)
+Define SUBLANG_SPANISH_EL_SALVADOR          for |CI$11 // Spanish (El Salvador)
+Define SUBLANG_SPANISH_HONDURAS             for |CI$12 // Spanish (Honduras)
+Define SUBLANG_SPANISH_NICARAGUA            for |CI$13 // Spanish (Nicaragua)
+Define SUBLANG_SPANISH_PUERTO_RICO          for |CI$14 // Spanish (Puerto Rico)
+Define SUBLANG_SWEDISH                      for |CI$01 // Swedish
+Define SUBLANG_SWEDISH_FINLAND              for |CI$02 // Swedish (Finland)
+Define SUBLANG_URDU_PAKISTAN                for |CI$01 // Urdu (Pakistan)
+Define SUBLANG_URDU_INDIA                   for |CI$02 // Urdu (India)
+Define SUBLANG_UZBEK_LATIN                  for |CI$01 // Uzbek (Latin)
+Define SUBLANG_UZBEK_CYRILLIC               for |CI$02 // Uzbek (Cyrillic)
+
+Define FILE_ATTRIBUTE_ARCHIVE               for 32 // a file or directory that is an archive file or directory. Applications typically Use this attribute to mark files for backup or removal .
+Define FILE_ATTRIBUTE_COMPRESSED            for 2048 // a file or directory that is compressed. for a file, all of the data in the file is compressed. for a directory, compression is the default for newly created files and subdirectories.
+Define FILE_ATTRIBUTE_DEVICE                for 64 // This value is reserved for system Use.
+Define FILE_ATTRIBUTE_DIRECTORY             for 16 // The Handle that identifies a directory.
+Define FILE_ATTRIBUTE_ENCRYPTED             for 16384 // a file or directory that is encrypted. for a file, all data streams in the file are encrypted. for a directory, encryption is the default for newly created files and subdirectories.
+Define FILE_ATTRIBUTE_HIDDEN                for 2 // The file or directory is hidden. It is not included in an ordinary directory listing.
+Define FILE_ATTRIBUTE_INTEGRITY_STREAM      for 32768 // The directory or user data stream is configured with integrity (only supported on ReFS volumes). It is not included in an ordinary directory listing. The integrity setting persists with the file If it's renamed. If a file is copied the destination file will have integrity set if either the source file or destination directory have integrity set. Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003, and Windows XP:  This flag is not supported Until Windows Server 2012.
+Define FILE_ATTRIBUTE_NORMAL                for 128 // a file that does not have other attributes Set. This attribute is valid only when used alone.
+Define FILE_ATTRIBUTE_NOT_CONTENT_INDEXED   for 8192 // The file or directory is not to be indexed by the content indexing service.
+Define FILE_ATTRIBUTE_NO_SCRUB_DATA         for 131072 // The user data stream not to be Read by the background data integrity scanner (AKA scrubber). When Set on a directory it only provides inheritance. This flag is only supported on Storage Spaces and ReFS volumes. It is not included in an ordinary directory listing. Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003, and Windows XP:  This flag is not supported Until Windows 8 and Windows Server 2012.
+Define FILE_ATTRIBUTE_OFFLINE               for 4096 // The data of a file is not available immediately. This attribute indicates that the file data is physically moved to offline storage. This attribute is used by Remote Storage, which is the hierarchical storage management software. Applications should not arbitrarily change this attribute.
+Define FILE_ATTRIBUTE_READONLY              for 1 // a file that is Read-only. Applications can Read the file, but cannot Write to it or Delete it. This attribute is not honored on directories. for more information, see You cannot view or change the Read-only or the System attributes of folders in Windows Server 2003, in Windows XP, in Windows Vista or in Windows 7.
+Define FILE_ATTRIBUTE_REPARSE_POINT         for 1024 // a file or directory that has an associated reparse point, or a file that is a symbolic link.
+Define FILE_ATTRIBUTE_SPARSE_FILE           for 512 // a file that is a sparse file.
+Define FILE_ATTRIBUTE_SYSTEM                for 4 // a file or directory that the operating system uses a part of, or uses exclusively.
+Define FILE_ATTRIBUTE_TEMPORARY             for 256 // a file that is being used for temporary storage. File systems avoid writing data back to mass storage If sufficient cache memory is available, because typically, an application deletes a temporary file after the Handle is closed. In that scenario, the system can entirely avoid writing the data. Otherwise, the data is written after the Handle is closed.
+Define FILE_ATTRIBUTE_VIRTUAL               for 65536 // This value is reserved for system use
+
+Function DRPathFindExtension Desktop WString wPath Returns String
+    String sRetVal
+    Pointer pExtension
+
+    Move (DR_WinAPI_PathFindExtension (AddressOf (wPath))) to pExtension
+    Move (PointerToWstring (pExtension)) to sRetVal
+
+    Function_Return (Trim (sRetVal))
+End_Function
+
+Function DRPathFindFileName Desktop WString wPath Returns String
+    String sRetVal
+    Pointer pFileName
+
+    Move (DR_WinAPI_PathFindFileName (AddressOf (wPath))) to pFileName
+    Move (PointerToWstring (pFileName)) to sRetVal
+
+    Function_Return (Trim (sRetVal))
+End_Function

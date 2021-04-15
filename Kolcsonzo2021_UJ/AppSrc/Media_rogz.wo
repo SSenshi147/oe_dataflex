@@ -1,0 +1,105 @@
+﻿// C:\DataFlex Projects\Kolcsonzo2021\AppSrc\Media_rogz.wo
+// Média karbantartása
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cWebGrid.pkg
+Use cWebColumn.pkg
+Use cWebColumnCombo.pkg
+
+Use cemberDataDictionary.dd
+Use cmediaDataDictionary.dd
+
+Object oMedia_rogz is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Média karbantartása"
+    Set piWidth to 1000
+
+    Object oember_DD is a cemberDataDictionary
+        // this lets you save a new parent DD from within child DD
+        Set Allow_Foreign_New_Save_State to True
+    End_Object 
+
+    Object omedia_DD is a cmediaDataDictionary
+        Set DDO_Server To oember_DD
+        Set Constrain_File To ember.File_Number
+    End_Object 
+
+    Set Main_DD To oember_DD
+    Set Server  To oember_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+        WebSetResponsive piColumnCount rmMobile to 2
+
+        Object oemberID is a cWebForm
+            Entry_Item ember.ID
+            Set piColumnSpan to 1
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "Azonosító"
+        End_Object 
+
+        Object oemberNEV is a cWebForm
+            Entry_Item ember.NEV
+            Set piColumnSpan to 10
+            Set piColumnIndex to 1
+            Set peLabelPosition to lpTop
+            Set psLabel to "Név"
+        End_Object 
+
+        Object oDetailGrid is a cWebGrid
+            Set Server to omedia_DD
+            Set piOrdering to 5
+            Set pbFillHeight to True
+            Set piColumnSpan to 12
+
+            Object omediamediaid is a cWebColumn
+                Entry_Item media.mediaid
+                Set psCaption to "Azon."
+                Set piWidth to 60
+                WebSetResponsive pbRender rmMobile to False
+            End_Object 
+
+            Object omedianev is a cWebColumn
+                Entry_Item media.nev
+                Set psCaption to "Név"
+                Set piWidth to 500
+            End_Object 
+
+            Object omediaszerzo is a cWebColumn
+                Entry_Item media.szerzo
+                Set psCaption to "Szerzo"
+                Set piWidth to 500
+            End_Object 
+
+            Object omediatipus is a cWebColumnCombo
+                Entry_Item media.tipus
+                Set psCaption to "Típus"
+                Set piWidth to 100
+            End_Object 
+
+            Object omediadatum is a cWebColumn
+                Entry_Item media.datum
+                Set psCaption to "Dátum"
+                Set piWidth to 100
+            End_Object 
+
+            Object omediaar is a cWebColumn
+                Entry_Item media.ar
+                Set psCaption to "Ar"
+                Set piWidth to 90
+            End_Object 
+
+            Object omediaev is a cWebColumn
+                Entry_Item media.ev
+                Set psCaption to "Évszám"
+                Set piWidth to 55
+            End_Object 
+        End_Object 
+    End_Object 
+
+End_Object 

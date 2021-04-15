@@ -1,0 +1,11 @@
+#REPLACE FILE3 media
+#REPLACE media.Recnum |FN3,0
+#REPLACE media.mediaid |FN3,1
+#REPLACE media.nev |FS3,2
+#REPLACE media.szerzo |FS3,3
+#REPLACE media.tipus |FS3,4
+#REPLACE media.datum |FD3,5
+#REPLACE media.ar |FN3,6
+#REPLACE media.megj |FS3,7
+#REPLACE media.emberid |FN3,8
+#REPLACE media.ev |FN3,9

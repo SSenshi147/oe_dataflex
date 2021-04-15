@@ -1,0 +1,5 @@
+#REPLACE FILE7 varosok
+#REPLACE varosok.Recnum |FN7,0
+#REPLACE varosok.irszam |FS7,1
+#REPLACE varosok.varosok |FS7,2
+#REPLACE varosok.megye |FS7,3

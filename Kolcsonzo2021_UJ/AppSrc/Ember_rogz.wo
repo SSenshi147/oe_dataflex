@@ -1,0 +1,93 @@
+﻿// C:\DataFlex Projects\Kolcsonzo2021\AppSrc\Ember_rogz.wo
+// Ember karbantartása
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cWebEdit.pkg
+
+Use cemberDataDictionary.dd
+
+Object oEmber_rogz is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Ember karbantartása"
+    Set piWidth to 800
+
+    Object oember_DD is a cemberDataDictionary
+    End_Object 
+
+    Set Main_DD To oember_DD
+    Set Server  To oember_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oemberID is a cWebForm
+            Entry_Item ember.ID
+            Set piColumnSpan to 1
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Azonosító"
+        End_Object 
+
+        Object oemberNEV is a cWebForm
+            Entry_Item ember.NEV
+            Set piColumnSpan to 11
+            Set piColumnIndex to 1
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Név"
+        End_Object 
+
+        Object oemberIRSZAM is a cWebForm
+            Entry_Item ember.IRSZAM
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Irányítószám"
+        End_Object 
+
+        Object oemberVAROS is a cWebForm
+            Entry_Item ember.VAROS
+            Set piColumnSpan to 4
+            Set piColumnIndex to 2
+            Set peLabelPosition to lpFloat
+            Set psLabel to "VAROS"
+        End_Object 
+
+        Object oemberCIM is a cWebForm
+            Entry_Item ember.CIM
+            Set piColumnSpan to 12
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Cím"
+        End_Object 
+
+        Object oemberTEL is a cWebForm
+            Entry_Item ember.TEL
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Telefonszám"
+        End_Object 
+
+        Object oemberEMAIL is a cWebForm
+            Entry_Item ember.EMAIL
+            Set piColumnSpan to 12
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "E-mail"
+        End_Object 
+
+        Object oemberMEGJ is a cWebEdit
+            Entry_Item ember.MEGJ
+            Set piColumnSpan to 6
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "Megjegyzés"
+            Set pbFillHeight to True
+        End_Object 
+    End_Object 
+
+End_Object 

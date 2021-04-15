@@ -1,0 +1,19 @@
+﻿Use cImageList32.pkg
+
+Enum_List
+    Define C_DR_REPORT_ICON
+    Define C_DR_GROUP_ICON
+    Define C_DR_GROUP_HIDDEN_ICON
+End_Enum_List
+
+Class cDRGroupTreeImageList is a cImageList32
+    Procedure OnCreate
+        Void_Type iVoid
+        
+        Set piMaxImages to 3
+        
+        Get AddIcon "DRReport.Ico" to iVoid
+        Get AddIcon "DRGroup.Ico" to iVoid
+        Get AddIcon "DRHiddenGroup.Ico" to iVoid
+    End_Procedure
+End_Class

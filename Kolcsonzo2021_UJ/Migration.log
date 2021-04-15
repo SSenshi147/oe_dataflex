@@ -1,0 +1,11 @@
+DataFlex Workspace Migration Wizard Log  -  15/04/2021 - 13:16:2
+-------------------------------------------------------------------------
+
+1) Kolcsonzo2021.sws
+migrated from C:\DataFlex Projects\Kolcsonzo2021 to C:\DataFlex Projects\Kolcsonzo2021
+
+IMPORTANT INFORMATION:
+You may NOT save Unicode data to OEM tables. Only ANSI/Unicode tables have the ability to support Unicode data. We recommend that you run the OEM to ANSI Conversion Wizard to convert the following OEM tables detected in this workspace:
+havi
+
+

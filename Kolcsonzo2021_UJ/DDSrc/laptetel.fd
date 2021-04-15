@@ -1,0 +1,10 @@
+#REPLACE FILE6 laptetel
+#REPLACE laptetel.Recnum |FN6,0
+#REPLACE laptetel.lapid |FN6,1
+#REPLACE laptetel.mediaid |FN6,2
+#REPLACE laptetel.menny |FN6,3
+#REPLACE laptetel.ar |FN6,4
+#REPLACE laptetel.crdt |FD6,5
+#REPLACE laptetel.crtime |FS6,6
+#REPLACE laptetel.lmdt |FD6,7
+#REPLACE laptetel.lmtime |FS6,8

@@ -1,0 +1,47 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg 
+Use cWebButton.pkg
+
+Object oHelloWorld is a cWebView
+    Set piWidth to 700
+    Set psCaption to "HelloWorld"
+
+    // Your DDO structure will go here
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 24
+
+        Object oForm is a cWebForm
+            Set piColumnSpan to 0
+            Set psLabel to "Label 1:"
+            Set psValue to "Írj ide valami"
+        End_Object
+
+        Object oWebButton1 is a cWebButton
+            Set piColumnSpan to 6
+            Set psCaption to "Nyomd meg"
+        
+            Procedure OnClick
+                String sBe
+                WebGet psValue of oForm to sBe
+                Send ShowInfoBox sBe "Figyelem"
+                // WebSet psValue
+            End_Procedure
+        End_Object
+
+        Object oWebButton2 is a cWebButton
+            Set piColumnSpan to 12
+            Set psCaption to "button"
+            Set piColumnIndex to 6
+        
+            Procedure OnClick
+            End_Procedure
+        End_Object
+        
+        // place controls here
+        // Your view will grow as controls are added
+        
+    End_Object 
+
+End_Object

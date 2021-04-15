@@ -1,0 +1,200 @@
+﻿Use Dftreevw.pkg
+Use cDRGroupTreeImageList.pkg
+
+// vReportGroupInfo is an array with the following columns
+// vReportGroupInfo[n][0] = ReportId (e.g. ReportId main report, sub-report)
+// vReportGroupInfo[n][1] = Groupnumber (e.g. Group#1, Group#2)
+// vReportGroupInfo[n][2] = Groupname
+// vReportGroupInfo[n][3] = Pagenumber (0 based)
+// vReportGroupInfo[n][4] = from pos in TWIPS
+// vReportGroupInfo[n][5] = Hidden (Group is hidden)
+
+Class cDRGroupTree is a TreeView
+    Procedure Construct_Object
+        Forward Send Construct_Object
+
+        { Visibility = Private }
+        { Description = "Used to store the group info returned from ComReportGroupInfo" }
+        Property Variant[][6] pvReportGroupInfo
+
+        Object oImageList is a cDRGroupTreeImageList
+            Delegate Set ImageListObject to Self
+        End_Object
+    End_Procedure
+
+    Procedure OnCreateTree
+        Variant[][6] vReportGroupInfo
+        Variant[6] vGroupInfo vNextGroupInfo
+        Integer[][2] iGroupPageInfo
+        Integer iElements iElement
+        Handle hoReport hRootItem hLastItem
+        String sReportId sLabel
+        Boolean bShowHiddenGroups
+
+        Delegate Get phoReport to hoReport
+        If (hoReport <> 0) Begin
+            Get psReportId of hoReport to sReportId
+            If (sReportId <> "") Begin
+                Get ComReportGroupInfo of hoReport sReportId to vReportGroupInfo
+                Move (SizeOfArray (vReportGroupInfo)) to iElements
+                If (iElements > 0) Begin
+                    Set pvReportGroupInfo to vReportGroupInfo
+                    Get pbShowHiddenGroups of hoReport to bShowHiddenGroups
+                    Get ComReportName of hoReport sReportId to sLabel
+                    Send ClearAll
+                    Get AddTreeItem sLabel 0 -1 C_DR_REPORT_ICON C_DR_REPORT_ICON to hRootItem
+                    Move hRootItem to hLastItem
+                    Decrement iElements
+                    For iElement from 0 to iElements
+                        Move vReportGroupInfo[iElement] to vGroupInfo
+                        If ((vGroupInfo[5] = False or bShowHiddenGroups) and vGroupInfo[1] = 1 and vGroupInfo[0] = sReportId) Begin
+                            If (vGroupInfo[5] = False) Begin
+                                Get InsertTreeItem vGroupInfo[2] hRootItem hLastItem iElement C_DR_GROUP_ICON C_DR_GROUP_ICON to hLastItem
+                            End
+                            Else Begin
+                                Get InsertTreeItem vGroupInfo[2] hRootItem hLastItem iElement C_DR_GROUP_HIDDEN_ICON C_DR_GROUP_HIDDEN_ICON to hLastItem
+                            End
+                            If (iElement < iElements) Begin
+                                Move vReportGroupInfo[(iElement + 1)] to vNextGroupInfo
+                                If (vNextGroupInfo[1] <> 1 and vNextGroupInfo[5] = False) Begin
+                                    Set ItemChildCount hLastItem to 1
+                                End
+                                Else Begin
+                                    If (vNextGroupInfo[0] <> vGroupInfo[0] and vNextGroupInfo[5] = False) Begin
+                                        Set ItemChildCount hLastItem to 1
+                                    End
+                                End
+                            End
+                        End
+                    Loop
+                    Send DoExpandItem hRootItem
+                End
+            End
+        End
+    End_Procedure
+
+    Procedure Deactivating
+        Variant[][6] vReportGroupInfo
+
+        Forward Send Deactivating
+
+        // Remove the data used in these properties
+        Set pvReportGroupInfo to vReportGroupInfo
+    End_Procedure
+
+    // Determines if break should occur
+    Function ShouldBreak Handle hItem String sSub Returns Boolean
+        Handle hParentItem
+        Integer iElement
+        Boolean bBreak
+        Variant[][] vReportGroupInfo
+
+        Move False to bBreak
+        Get pvReportGroupInfo to vReportGroupInfo
+
+        Get ParentItem hItem to hParentItem
+        While (bBreak = False and hParentItem <> 0)
+            Get ItemData hParentItem to iElement
+            If (iElement <> -1 and vReportGroupInfo[iElement][0] = sSub) Begin
+                Move True to bBreak
+            End
+            Get ParentItem hParentItem to hParentItem
+        Loop
+        Function_Return bBreak
+    End_Function
+
+    // Shows next level of groups or sections
+    Procedure OnItemExpanding Handle hItem Boolean ByRef bCancel
+        Integer iElement iElements iGroupInfoElement iChilds
+        Handle hChildItem hLastItem hoReport
+        Integer iOldGroup iCurrentGroup
+        String sOldReportId sCurrentReportId
+        Boolean bShowHiddenGroups bBreak
+        Variant[][] vReportGroupInfo
+        Variant[] vGroupInfo vNextGroupInfo
+
+        Delegate Get phoReport to hoReport
+        If (hoReport <> 0) Begin
+            Get ItemData hItem to iGroupInfoElement
+            If (iGroupInfoElement <> -1) Begin
+                Get ItemChildCount hItem to iChilds
+                Get ChildItem hItem to hChildItem
+                If (iChilds > 0 and hChildItem = 0) Begin
+                    Get pvReportGroupInfo to vReportGroupInfo
+                    Move (SizeOfArray (vReportGroupInfo)) to iElements
+                    If (iElements > 0) Begin
+                        Decrement iElements
+
+                        Get pbShowHiddenGroups of hoReport to bShowHiddenGroups
+
+                        Move vReportGroupInfo[iGroupInfoElement][0] to sOldReportId
+                        Move vReportGroupInfo[iGroupInfoElement][1] to iOldGroup
+
+                        Increment iGroupInfoElement
+                        Move vReportGroupInfo[iGroupInfoElement][0] to sCurrentReportId
+                        Move vReportGroupInfo[iGroupInfoElement][1] to iCurrentGroup
+
+                        Move hItem to hLastItem
+
+                        For iElement from iGroupInfoElement to iElements
+                            Move vReportGroupInfo[iElement] to vGroupInfo
+                            Move False to bBreak
+
+                            // Search backwards for same (sub)report
+                            If (vGroupInfo[0] <> sCurrentReportId or vGroupInfo[1] <> iCurrentGroup) Begin
+                                Get ShouldBreak hLastItem vGroupInfo[0] to bBreak
+                                If (bBreak) Begin
+                                    Procedure_Return
+                                End
+                            End
+
+                            If ((vGroupInfo[5] = False or bShowHiddenGroups) and vGroupInfo[0] = sCurrentReportId and vGroupInfo[1] = iCurrentGroup) Begin
+                                If (vGroupInfo[5] = False) Begin
+                                    Get InsertTreeItem vGroupInfo[2] hItem hLastItem iElement 0 C_DR_GROUP_ICON C_DR_GROUP_ICON to hLastItem
+                                End
+                                Else Begin
+                                    Get InsertTreeItem vGroupInfo[2] hItem hLastItem iElement 0 C_DR_GROUP_HIDDEN_ICON C_DR_GROUP_HIDDEN_ICON to hLastItem
+                                End
+
+                                If (iElement < iElements) Begin
+                                    Move vReportGroupInfo[(iElement + 1)] to vNextGroupInfo
+
+                                    If (vNextGroupInfo[5] = False or bShowHiddenGroups) Begin // Not hidden
+                                        Get ShouldBreak hLastItem vNextGroupInfo[0] to bBreak
+                                        If (not (bBreak)) Begin
+                                            If (vNextGroupInfo[0] <> sCurrentReportId and vNextGroupInfo[0] <> sOldReportId) Begin
+                                                Set ItemChildCount hLastItem to 1 // different (sub)report
+                                            End
+                                            Else Begin
+                                                If (vNextGroupInfo[0] = sCurrentReportId and vNextGroupInfo[1] > iCurrentGroup) Begin
+                                                    Set ItemChildCount hLastItem to 1 // different group
+                                                End
+                                            End
+                                        End
+                                    End
+                                End
+                            End
+                        Loop
+                    End
+                End
+            End
+        End
+    End_Function
+
+    Procedure OnItemChanged Handle hItem Handle hItemOld
+        Integer iGroupInfoElement
+        Variant[][6] vReportGroupInfo
+        Handle hoReport
+
+        Get phoReport to hoReport
+        Get ItemData hItem to iGroupInfoElement
+        If (iGroupInfoElement <> -1) Begin
+            Get pvReportGroupInfo to vReportGroupInfo
+            Set piPreviewCurrentPage of hoReport to (vReportGroupInfo[iGroupInfoElement][3] + 1)
+            Send PreviewVScroll of hoReport SB_THUMBPOSITION vReportGroupInfo[iGroupInfoElement][4]
+        End
+        Else Begin
+            Set piPreviewCurrentPage of hoReport to 1           
+        End
+    End_Procedure
+End_Class

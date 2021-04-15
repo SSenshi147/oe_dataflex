@@ -1,0 +1,257 @@
+// cWScheckVatService.pkg
+// Class:   cWScheckVatService
+// Created: 07/04/2021 17:22:35.161
+// 
+
+Use cClientWebService.pkg
+
+// 
+// Class:   cWScheckVatService
+// 
+// Interface:
+// 
+// Function wscheckVat String BYREF llcountryCode String BYREF llvatNumber Boolean BYREF llvalid String BYREF llname String BYREF lladdress Returns Date
+// Function wscheckVatApprox String BYREF llcountryCode String BYREF llvatNumber String BYREF lltraderName String BYREF lltraderCompanyType String BYREF lltraderStreet String BYREF lltraderPostcode String BYREF lltraderCity String llrequesterCountryCode String llrequesterVatNumber Boolean BYREF llvalid String BYREF lltraderAddress String BYREF lltraderNameMatch String BYREF lltraderCompanyTypeMatch String BYREF lltraderStreetMatch String BYREF lltraderPostcodeMatch String BYREF lltraderCityMatch String BYREF llrequestIdentifier Returns Date
+// 
+// 
+
+Class cWScheckVatService is a cClientWebService
+
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        Set psServiceLocation     to 'http://ec.europa.eu/taxation_customs/vies/services/checkVatService'
+        Set psWSDLLocation        to 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl'
+    End_Procedure
+
+    // 
+    // Function wscheckVat
+    // 
+    // 
+    Function wscheckVat String BYREF llcountryCode String BYREF llvatNumber Boolean BYREF llvalid String BYREF llname String BYREF lladdress Returns Date
+        Date llrequestDate
+        String llcountryCodeEmpty
+        String llvatNumberEmpty
+        Boolean llvalidEmpty
+        String llnameEmpty
+        String lladdressEmpty
+        tSoapParameter[] spParameters
+        tSoapParameter[] spReturnParameters
+        Integer eStatus
+
+        Send Reset
+        Set psSOAPAction           to ""
+        Set peSoapStyle            to ssDocument
+
+        Set psRequestNSURI         to "urn:ec.europa.eu:taxud:vies:services:checkVat:types"
+        Set peSoapEncoding         to seLiteral
+        Set psMethodRequest        to "checkVat"
+        Set pbRequestBare          to False
+        Set pbRequestOnly          to False
+
+        Set psResponseNSURI        to "urn:ec.europa.eu:taxud:vies:services:checkVat:types"
+        Set peResponseSoapEncoding to seLiteral
+        Set psMethodResponse       to "checkVatResponse"
+        Set pbResponseBare         to False
+
+        // Parameter 0
+        Get DefineParameter xsString 1 1 "countryCode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[0].SoapParamDef 
+        ValueTreeSerializeParameter llcountryCode to spParameters[0].ValueTree
+
+        // Parameter 1
+        Get DefineParameter xsString 1 1 "vatNumber" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[1].SoapParamDef 
+        ValueTreeSerializeParameter llvatNumber to spParameters[1].ValueTree
+
+        Set pspParameters to spParameters
+
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 1 1 "countryCode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[0].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 1 1 "vatNumber" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[1].SoapParamDef
+        // Return Parameter
+        Get DefineParameter xsDate 1 1 "requestDate" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[2].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsBoolean 1 1 "valid" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[3].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "name" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[4].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "address" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[5].SoapParamDef
+        Set pspReturnParameters to spReturnParameters
+
+        Get DoInvokeService to eStatus
+        If (eStatus=wssOK) Begin
+            Get pspReturnParameters   to spReturnParameters
+            Move llcountryCodeEmpty to llcountryCode
+            ValueTreeDeserializeParameter spReturnParameters[0].ValueTree to llcountryCode
+            Move llvatNumberEmpty to llvatNumber
+            ValueTreeDeserializeParameter spReturnParameters[1].ValueTree to llvatNumber
+            ValueTreeDeserializeParameter spReturnParameters[2].ValueTree to llrequestDate
+            Move llvalidEmpty to llvalid
+            ValueTreeDeserializeParameter spReturnParameters[3].ValueTree to llvalid
+            Move llnameEmpty to llname
+            ValueTreeDeserializeParameter spReturnParameters[4].ValueTree to llname
+            Move lladdressEmpty to lladdress
+            ValueTreeDeserializeParameter spReturnParameters[5].ValueTree to lladdress
+        End
+        Else Begin
+            Send LastError
+        End
+
+        Function_Return llrequestDate
+    End_Function
+
+    // 
+    // Function wscheckVatApprox
+    // 
+    // 
+    Function wscheckVatApprox String BYREF llcountryCode String BYREF llvatNumber String BYREF lltraderName String BYREF lltraderCompanyType String BYREF lltraderStreet String BYREF lltraderPostcode String BYREF lltraderCity String llrequesterCountryCode String llrequesterVatNumber Boolean BYREF llvalid String BYREF lltraderAddress String BYREF lltraderNameMatch String BYREF lltraderCompanyTypeMatch String BYREF lltraderStreetMatch String BYREF lltraderPostcodeMatch String BYREF lltraderCityMatch String BYREF llrequestIdentifier Returns Date
+        Date llrequestDate
+        String llcountryCodeEmpty
+        String llvatNumberEmpty
+        Boolean llvalidEmpty
+        String lltraderNameEmpty
+        String lltraderCompanyTypeEmpty
+        String lltraderAddressEmpty
+        String lltraderStreetEmpty
+        String lltraderPostcodeEmpty
+        String lltraderCityEmpty
+        String lltraderNameMatchEmpty
+        String lltraderCompanyTypeMatchEmpty
+        String lltraderStreetMatchEmpty
+        String lltraderPostcodeMatchEmpty
+        String lltraderCityMatchEmpty
+        String llrequestIdentifierEmpty
+        tSoapParameter[] spParameters
+        tSoapParameter[] spReturnParameters
+        Integer eStatus
+
+        Send Reset
+        Set psSOAPAction           to ""
+        Set peSoapStyle            to ssDocument
+
+        Set psRequestNSURI         to "urn:ec.europa.eu:taxud:vies:services:checkVat:types"
+        Set peSoapEncoding         to seLiteral
+        Set psMethodRequest        to "checkVatApprox"
+        Set pbRequestBare          to False
+        Set pbRequestOnly          to False
+
+        Set psResponseNSURI        to "urn:ec.europa.eu:taxud:vies:services:checkVat:types"
+        Set peResponseSoapEncoding to seLiteral
+        Set psMethodResponse       to "checkVatApproxResponse"
+        Set pbResponseBare         to False
+
+        // Parameter 0
+        Get DefineParameter xsString 1 1 "countryCode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[0].SoapParamDef 
+        ValueTreeSerializeParameter llcountryCode to spParameters[0].ValueTree
+
+        // Parameter 1
+        Get DefineParameter xsString 1 1 "vatNumber" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[1].SoapParamDef 
+        ValueTreeSerializeParameter llvatNumber to spParameters[1].ValueTree
+
+        // Parameter 2
+        Get DefineParameter xsString 0 1 "traderName" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[2].SoapParamDef 
+        ValueTreeSerializeParameter lltraderName to spParameters[2].ValueTree
+
+        // Parameter 3
+        Get DefineParameter xsString 0 1 "traderCompanyType" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[3].SoapParamDef 
+        ValueTreeSerializeParameter lltraderCompanyType to spParameters[3].ValueTree
+
+        // Parameter 4
+        Get DefineParameter xsString 0 1 "traderStreet" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[4].SoapParamDef 
+        ValueTreeSerializeParameter lltraderStreet to spParameters[4].ValueTree
+
+        // Parameter 5
+        Get DefineParameter xsString 0 1 "traderPostcode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[5].SoapParamDef 
+        ValueTreeSerializeParameter lltraderPostcode to spParameters[5].ValueTree
+
+        // Parameter 6
+        Get DefineParameter xsString 0 1 "traderCity" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[6].SoapParamDef 
+        ValueTreeSerializeParameter lltraderCity to spParameters[6].ValueTree
+
+        // Parameter 7
+        Get DefineParameter xsString 0 1 "requesterCountryCode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[7].SoapParamDef 
+        ValueTreeSerializeParameter llrequesterCountryCode to spParameters[7].ValueTree
+
+        // Parameter 8
+        Get DefineParameter xsString 0 1 "requesterVatNumber" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spParameters[8].SoapParamDef 
+        ValueTreeSerializeParameter llrequesterVatNumber to spParameters[8].ValueTree
+
+        Set pspParameters to spParameters
+
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 1 1 "countryCode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[0].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 1 1 "vatNumber" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[1].SoapParamDef
+        // Return Parameter
+        Get DefineParameter xsDate 1 1 "requestDate" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[2].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsBoolean 1 1 "valid" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[3].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 0 1 "traderName" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[4].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 0 1 "traderCompanyType" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[5].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderAddress" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[6].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 0 1 "traderStreet" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[7].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 0 1 "traderPostcode" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[8].SoapParamDef
+        // Return Parameter - Returned BYREF (in/out)
+        Get DefineParameter xsString 0 1 "traderCity" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[9].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderNameMatch" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[10].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderCompanyTypeMatch" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[11].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderStreetMatch" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[12].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderPostcodeMatch" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[13].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 0 1 "traderCityMatch" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[14].SoapParamDef
+        // Return Parameter - Returned BYREF (out)
+        Get DefineParameter xsString 1 1 "requestIdentifier" "urn:ec.europa.eu:taxud:vies:services:checkVat:types" to spReturnParameters[15].SoapParamDef
+        Set pspReturnParameters to spReturnParameters
+
+        Get DoInvokeService to eStatus
+        If (eStatus=wssOK) Begin
+            Get pspReturnParameters   to spReturnParameters
+            Move llcountryCodeEmpty to llcountryCode
+            ValueTreeDeserializeParameter spReturnParameters[0].ValueTree to llcountryCode
+            Move llvatNumberEmpty to llvatNumber
+            ValueTreeDeserializeParameter spReturnParameters[1].ValueTree to llvatNumber
+            ValueTreeDeserializeParameter spReturnParameters[2].ValueTree to llrequestDate
+            Move llvalidEmpty to llvalid
+            ValueTreeDeserializeParameter spReturnParameters[3].ValueTree to llvalid
+            Move lltraderNameEmpty to lltraderName
+            ValueTreeDeserializeParameter spReturnParameters[4].ValueTree to lltraderName
+            Move lltraderCompanyTypeEmpty to lltraderCompanyType
+            ValueTreeDeserializeParameter spReturnParameters[5].ValueTree to lltraderCompanyType
+            Move lltraderAddressEmpty to lltraderAddress
+            ValueTreeDeserializeParameter spReturnParameters[6].ValueTree to lltraderAddress
+            Move lltraderStreetEmpty to lltraderStreet
+            ValueTreeDeserializeParameter spReturnParameters[7].ValueTree to lltraderStreet
+            Move lltraderPostcodeEmpty to lltraderPostcode
+            ValueTreeDeserializeParameter spReturnParameters[8].ValueTree to lltraderPostcode
+            Move lltraderCityEmpty to lltraderCity
+            ValueTreeDeserializeParameter spReturnParameters[9].ValueTree to lltraderCity
+            Move lltraderNameMatchEmpty to lltraderNameMatch
+            ValueTreeDeserializeParameter spReturnParameters[10].ValueTree to lltraderNameMatch
+            Move lltraderCompanyTypeMatchEmpty to lltraderCompanyTypeMatch
+            ValueTreeDeserializeParameter spReturnParameters[11].ValueTree to lltraderCompanyTypeMatch
+            Move lltraderStreetMatchEmpty to lltraderStreetMatch
+            ValueTreeDeserializeParameter spReturnParameters[12].ValueTree to lltraderStreetMatch
+            Move lltraderPostcodeMatchEmpty to lltraderPostcodeMatch
+            ValueTreeDeserializeParameter spReturnParameters[13].ValueTree to lltraderPostcodeMatch
+            Move lltraderCityMatchEmpty to lltraderCityMatch
+            ValueTreeDeserializeParameter spReturnParameters[14].ValueTree to lltraderCityMatch
+            Move llrequestIdentifierEmpty to llrequestIdentifier
+            ValueTreeDeserializeParameter spReturnParameters[15].ValueTree to llrequestIdentifier
+        End
+        Else Begin
+            Send LastError
+        End
+
+        Function_Return llrequestDate
+    End_Function
+
+End_Class
+

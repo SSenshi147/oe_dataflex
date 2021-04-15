@@ -1,0 +1,8 @@
+﻿Use cDRCommandBarSystem.pkg
+
+Class cDRPreviewCommandBarSystem is a cDRCommandBarSystem
+    // When the commandbars resize send the message to the parent object
+    Procedure OnComResizeClient Integer iLeft Integer iTop Integer iRight Integer iBottom
+        Delegate Send OnResizeCommandBars iLeft iTop iRight iBottom
+    End_Procedure
+End_Class
