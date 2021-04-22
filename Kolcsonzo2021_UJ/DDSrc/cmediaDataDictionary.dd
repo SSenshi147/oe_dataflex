@@ -1,4 +1,4 @@
-Use DataDict.pkg
+ÔªøUse DataDict.pkg
 
 Open media
 Open ember
@@ -10,12 +10,13 @@ Object oMedia_tipusVT is a DescriptionValidationTable
         Forward Send Fill_List
         Send Add_Table_Value "DVD" "Digital Versatile Disk"
         Send Add_Table_Value "CD" "Compact Disc"
-        Send Add_Table_Value "BOOK" "Kînyv"
+        Send Add_Table_Value "BOOK" "K√∂nyv"
         Send Add_Table_Value "PEN" "PenDrive"
     End_Procedure
 End_Object
 
 Register_Object media_sl
+Register_Object omediaWebLookup
 
 Class cmediaDataDictionary is a DataDictionary
     
@@ -35,44 +36,48 @@ Class cmediaDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
         Set Key_Field_State Field media.mediaid to True
-        Set Field_Label_Long Field media.mediaid to "Azonos°t¢"
+        Set Field_Label_Long Field media.mediaid to "Azonos√≠t√≥"
         Set Field_Label_Short Field media.mediaid to "Azon."
         Set Field_Auto_Increment Field media.mediaid to File_Field system.mediaid
         Set Field_Prompt_Object Field media.mediaid to media_sl
+        Set Field_WebPrompt_Object Field media.mediaid to omediaWebLookup
 
-        Set Field_Label_Long Field media.nev to "NÇv"
-        Set Field_Label_Short Field media.nev to "NÇv"
+        Set Field_Label_Long Field media.nev to "N√©v"
+        Set Field_Label_Short Field media.nev to "N√©v"
         Set Field_Prompt_Object Field media.nev to media_sl
+        Set Field_WebPrompt_Object Field media.nev to omediaWebLookup
 
         Set Field_Label_Long Field media.szerzo to "Szerzo"
         Set Field_Label_Short Field media.szerzo to "Szerzo"
         Set Field_Prompt_Object Field media.szerzo to media_sl
+        Set Field_WebPrompt_Object Field media.szerzo to omediaWebLookup
 
-        Set Field_Label_Long Field media.tipus to "T°pus"
-        Set Field_Label_Short Field media.tipus to "T°pus"
+        Set Field_Label_Long Field media.tipus to "T√≠pus"
+        Set Field_Label_Short Field media.tipus to "T√≠pus"
         Set Field_Value_Table Field media.tipus to oMedia_tipusVT
         Set Field_Class_Name Field media.tipus to "Combo"
         Set Field_Prompt_Object Field media.tipus to media_sl
 
-        Set Field_Label_Long Field media.datum to "BeÇrkezÇs d†tom"
-        Set Field_Label_Short Field media.datum to "D†tum"
+        Set Field_Label_Long Field media.datum to "Be√©rkez√©s d√°tom"
+        Set Field_Label_Short Field media.datum to "D√°tum"
 
         Set Field_Label_Long Field media.ar to "Ar"
         Set Field_Label_Short Field media.ar to "Ar"
 
-        Set Field_Label_Long Field media.megj to "MegjegyzÇs"
+        Set Field_Label_Long Field media.megj to "Megjegyz√©s"
         Set Field_Label_Short Field media.megj to "Megj."
 
         Set Field_Prompt_Object Field media.emberid to media_sl
 
-        Set Field_Label_Long Field media.ev to "êvsz†m"
-        Set Field_Label_Short Field media.ev to "êvsz†m"
+        Set Field_Label_Long Field media.ev to "√âvsz√°m"
+        Set Field_Label_Short Field media.ev to "√âvsz√°m"
 
     End_Procedure
 
 End_Class
 
 #IFDEF Is$WebApp
+Use mediaWebLookup.wo
 #ELSE
 Use media.sl
 #ENDIF

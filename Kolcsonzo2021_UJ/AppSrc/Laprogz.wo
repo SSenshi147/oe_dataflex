@@ -1,0 +1,355 @@
+﻿// C:\Users\MARCI-DESKTOP\Desktop\oe_dataflex\Kolcsonzo2021_UJ\AppSrc\Laprogz.wo
+// Kölcsönzési lap
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cWebCombo.pkg
+Use cWebTabContainer.pkg
+Use cWebTabPage.pkg
+Use cWebGrid.pkg
+Use cWebColumn.pkg
+Use cWebColumnCombo.pkg
+
+Use cemberDataDictionary.dd
+Use cmediaDataDictionary.dd
+Use cberloDataDictionary.dd
+Use clapDataDictionary.dd
+Use claptetelDataDictionary.dd
+Use cWebCheckBox.pkg
+Use cWebButton.pkg
+
+Object oLaprogz is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Kölcsönzési lap"
+    Set piWidth to 1100
+
+    Object oember_DD is a cemberDataDictionary
+    End_Object 
+
+    Object omedia_DD is a cmediaDataDictionary
+        Set DDO_Server To oember_DD
+    End_Object 
+
+    Object oberlo_DD is a cberloDataDictionary
+    End_Object 
+
+    Object olap_DD is a clapDataDictionary
+        Set DDO_Server To oberlo_DD
+        // this lets you save a new parent DD from within child DD
+        Set Allow_Foreign_New_Save_State to True
+        
+        Procedure OnPostFind Integer eMessage Boolean bFound
+            Boolean bSync
+            Forward Send OnPostFind eMessage bFound
+            
+            Integer iStatus
+            
+            Get AppSynching of oWebApp to bSync
+            
+            If (not(bSync)) Begin
+                
+            
+            
+                Get File_Field_Current_Value of olap_DD File_Field lap.status to iStatus
+                
+                If (iStatus=0) Begin
+                    WebSet pbEnabled of oberloid to True
+                    WebSet pbEnabled of oberlonev to True
+                    WebSet pbEnabled of olapkezdat to True
+                    WebSet pbEnabled of olapkiado to True
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to True
+                End
+                If (iStatus=1) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to True
+                    WebSet pbEnabled of olapvegdat to True
+                    WebSet pbEnabled of oDetailGrid to False
+                End
+                If (iStatus=2) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to False 
+                End
+                If (iStatus=9) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to False
+                End
+            End
+        End_Procedure
+
+        Procedure Clear_Main_File
+            Boolean bSync
+            Forward Send Clear_Main_File
+            
+            Get AppSynching of oWebApp to bSync
+            
+            If (not(bSync)) Begin
+                WebSet pbEnabled of oberloid to True
+                WebSet pbEnabled of oberlonev to True
+                WebSet pbEnabled of olapkezdat to True
+                WebSet pbEnabled of olapkiado to True
+                WebSet pbEnabled of olapbevevo to False
+                WebSet pbEnabled of olapvegdat to False
+                WebSet pbEnabled of oDetailGrid to True
+            End
+        End_Procedure
+    End_Object 
+
+    Object olaptetel_DD is a claptetelDataDictionary
+        Set DDO_Server To olap_DD
+        Set DDO_Server To omedia_DD
+        Set Constrain_File To lap.File_Number
+    End_Object 
+
+    Set Main_DD To olap_DD
+    Set Server  To olap_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object olaplapid is a cWebForm
+            Entry_Item lap.lapid
+            Set piColumnSpan to 1
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "lapid"
+        End_Object 
+
+        Object olapstatus is a cWebCombo
+            Entry_Item lap.status
+            Set piColumnSpan to 5
+            Set piColumnIndex to 1
+            Set peLabelPosition to lpTop
+            Set psLabel to "status"
+            Set pbEnabled to False
+        End_Object 
+
+        Object oWebButton1 is a cWebButton
+            Set piColumnSpan to 2
+            Set psCaption to "Lezárás"
+            Set peLabelPosition to lpTop
+            Set pbShowLabel to True
+        
+            Procedure OnClick
+                Integer iStatus
+                Boolean bErr
+                Get File_Field_Current_Value of olap_DD File_Field lap.status to iStatus
+                If (iStatus = 0) Begin
+                    Set File_Field_Changed_Value of olap_DD File_Field lap.status to 1
+                End
+                If (iStatus = 1) Begin
+                    Set File_Field_Changed_Value of olap_DD File_Field lap.status to 2
+                End
+                Get Request_Validate of olap_DD to bErr
+                If (not(bErr)) Begin
+                    Send Request_Save of olap_DD
+                End
+                //Send SuperFind of olaplapid
+                Send Refind_Records of olap_DD
+            End_Procedure
+        End_Object
+
+        Object oberloid is a cWebForm
+            Entry_Item berlo.id
+            Set piColumnSpan to 1
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpTop
+            Set psLabel to "id"
+        End_Object 
+
+        Object oberlonev is a cWebForm
+            Entry_Item berlo.nev
+            Set piColumnSpan to 6
+            Set piColumnIndex to 1
+            Set peLabelPosition to lpTop
+            Set psLabel to "nev"
+        End_Object 
+
+        Object oWebTabContainer is a cWebTabContainer
+            Set pbFillHeight to True
+            Set piColumnSpan to 12
+            Set pbShowLabel to False
+            Set piMinHeight to 120
+            Set piHeight to 120
+
+            Object oPage1 is a cWebTabPage
+                Set piColumnCount to 12
+                Set psCaption to "Kölcsönzési adatok"
+                Set piMinHeight to 110
+                Set piHeight to 110
+
+                Object olapkezdat is a cWebDateForm
+                    Entry_Item lap.kezdat
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "kezdat"
+                End_Object 
+
+                Object olapvegdat is a cWebDateForm
+                    Entry_Item lap.vegdat
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 2
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "vegdat"
+                End_Object 
+
+                Object olapkiado is a cWebForm
+                    Entry_Item lap.kiado
+                    Set piColumnSpan to 3
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "kiado"
+                End_Object 
+
+                Object olapbevevo is a cWebForm
+                    Entry_Item lap.bevevo
+                    Set piColumnSpan to 3
+                    Set piColumnIndex to 3
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "bevevo"
+                End_Object 
+
+                Object olaposszertek is a cWebForm
+                    Entry_Item lap.osszertek
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "osszertek"
+                End_Object 
+
+                Object olaposszmenny is a cWebForm
+                    Entry_Item lap.osszmenny
+                    Set piColumnSpan to 1
+                    Set piColumnIndex to 2
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "osszmenny"
+                End_Object 
+            End_Object 
+
+            Object oPage2 is a cWebTabPage
+                Set piColumnCount to 12
+                Set psCaption to "Módosítások"
+                Set piMinHeight to 110
+                Set piHeight to 110
+
+                Object olapcrdt is a cWebForm
+                    Entry_Item lap.crdt
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "crdt"
+                End_Object 
+
+                Object olapcrtime is a cWebForm
+                    Entry_Item lap.crtime
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "crtime"
+                End_Object 
+
+                Object olaplmdt is a cWebForm
+                    Entry_Item lap.lmdt
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "lmdt"
+                End_Object 
+
+                Object olaplmtime is a cWebForm
+                    Entry_Item lap.lmtime
+                    Set piColumnSpan to 2
+                    Set piColumnIndex to 0
+                    Set peLabelPosition to lpTop
+                    Set psLabel to "lmtime"
+                End_Object 
+            End_Object 
+        End_Object 
+
+        Object oDetailGrid is a cWebGrid
+            Set Server to olaptetel_DD
+            Set piOrdering to 1
+            Set pbFillHeight to True
+            Set piColumnSpan to 12
+
+            Object omediamediaid is a cWebColumn
+                Entry_Item media.mediaid
+                Set psCaption to "mediaid"
+                Set piWidth to 60
+            End_Object 
+
+            Object omedianev is a cWebColumn
+                Entry_Item media.nev
+                Set psCaption to "Név"
+                Set piWidth to 500
+            End_Object 
+
+            Object omediaszerzo is a cWebColumn
+                Entry_Item media.szerzo
+                Set psCaption to "Szerzo"
+                Set piWidth to 500
+            End_Object 
+
+            Object omediatipus is a cWebColumnCombo
+                Entry_Item media.tipus
+                Set psCaption to "Típus"
+                Set piWidth to 100
+            End_Object 
+
+            Object olaptetelmenny is a cWebColumn
+                Entry_Item laptetel.menny
+                Set psCaption to "menny"
+                Set piWidth to 60
+            End_Object 
+
+            Object olaptetelar is a cWebColumn
+                Entry_Item laptetel.ar
+                Set psCaption to "ar"
+                Set piWidth to 110
+            End_Object 
+
+            Object olaptetelcrdt is a cWebColumn
+                Entry_Item laptetel.crdt
+                Set psCaption to "crdt"
+                Set piWidth to 100
+            End_Object 
+
+            Object olaptetelcrtime is a cWebColumn
+                Entry_Item laptetel.crtime
+                Set psCaption to "crtime"
+                Set piWidth to 100
+            End_Object 
+
+            Object olaptetellmdt is a cWebColumn
+                Entry_Item laptetel.lmdt
+                Set psCaption to "lmdt"
+                Set piWidth to 100
+            End_Object 
+
+            Object olaptetellmtime is a cWebColumn
+                Entry_Item laptetel.lmtime
+                Set psCaption to "lmtime"
+                Set piWidth to 100
+            End_Object 
+        End_Object 
+    End_Object 
+
+End_Object 

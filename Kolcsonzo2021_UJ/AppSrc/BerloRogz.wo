@@ -1,0 +1,83 @@
+﻿// C:\Users\MARCI-DESKTOP\Desktop\oe_dataflex\Kolcsonzo2021_UJ\AppSrc\BerloRogz.wo
+// Bérlők karbantartása
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+
+Use cberloDataDictionary.dd
+
+Object oBerloRogz is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Bérlők karbantartása"
+    Set piWidth to 700
+
+    Object oberlo_DD is a cberloDataDictionary
+    End_Object 
+
+    Set Main_DD To oberlo_DD
+    Set Server  To oberlo_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oberloid is a cWebForm
+            Entry_Item berlo.id
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "id"
+        End_Object 
+
+        Object oberlonev is a cWebForm
+            Entry_Item berlo.nev
+            Set piColumnSpan to 9
+            Set piColumnIndex to 2
+            Set peLabelPosition to lpFloat
+            Set psLabel to "nev"
+        End_Object 
+
+        Object oberloirszam is a cWebForm
+            Entry_Item berlo.irszam
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "irszam"
+        End_Object 
+
+        Object oberlovaros is a cWebForm
+            Entry_Item berlo.varos
+            Set piColumnSpan to 9
+            Set piColumnIndex to 2
+            Set peLabelPosition to lpFloat
+            Set psLabel to "varos"
+        End_Object 
+
+        Object oberlocim is a cWebForm
+            Entry_Item berlo.cim
+            Set piColumnSpan to 9
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "cim"
+        End_Object 
+
+        Object oberlotel is a cWebForm
+            Entry_Item berlo.tel
+            Set piColumnSpan to 4
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "tel"
+        End_Object 
+
+        Object oberloadoszam is a cWebForm
+            Entry_Item berlo.adoszam
+            Set piColumnSpan to 3
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "adoszam"
+        End_Object 
+    End_Object 
+
+End_Object 

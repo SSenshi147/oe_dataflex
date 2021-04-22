@@ -11,4 +11,4 @@ Is$Win64=True
 Project0=Kolcsonzo.src
 Project1=WebApp.src
 [Libraries]
-Lib1=Libraries\DataFlex Reports 8.0\DataFlex Reports.sws
+Lib2=..\..\..\..\..\Libraries\DataFlex Reports 8.0\20.0\DataFlex Reports.sws

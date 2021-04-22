@@ -1,0 +1,102 @@
+﻿// C:\Users\MARCI-DESKTOP\Desktop\oe_dataflex\Kolcsonzo2021_UJ\AppSrc\berloWebLookup.wo
+// Bérlők keresése
+//
+
+Use cWebModalDialog.pkg
+Use cWebPanel.pkg
+Use cWebButton.pkg
+Use cWebPromptList.pkg
+Use cWebColumn.pkg
+
+Use cberloDataDictionary.dd
+
+Object oberloWebLookup is a cWebModalDialog
+    Set piColumnCount to 12
+    Set psCaption to "Bérlők keresése"
+    Set piWidth to 900
+    Set piHeight to 600
+
+    Object oberlo_DD is a cberloDataDictionary
+    End_Object 
+
+    Set Main_DD To oberlo_DD
+    Set Server  To oberlo_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oPromptList is a cWebPromptList
+            Set pbFillHeight to True
+            Set piColumnSpan to 12
+
+            Object oberloid is a cWebColumn
+                Entry_Item berlo.id
+                Set psCaption to "id"
+                Set piWidth to 60
+            End_Object 
+
+            Object oberlonev is a cWebColumn
+                Entry_Item berlo.nev
+                Set psCaption to "nev"
+                Set piWidth to 500
+            End_Object 
+
+            Object oberloadoszam is a cWebColumn
+                Entry_Item berlo.adoszam
+                Set psCaption to "adoszam"
+                Set piWidth to 150
+            End_Object 
+
+            Object oberlovaros is a cWebColumn
+                Entry_Item berlo.varos
+                Set psCaption to "varos"
+                Set piWidth to 500
+            End_Object 
+        End_Object 
+
+        Object oOkButton is a cWebButton
+            Set psCaption to "OK"
+            Set piColumnSpan to 2
+            Set piColumnIndex to 6
+
+            Procedure OnClick
+                Send Ok of oPromptList
+            End_Procedure
+
+        End_Object 
+
+        Object oCancelButton is a cWebButton
+            Set psCaption to "Cancel"
+            Set piColumnSpan to 2
+            Set piColumnIndex to 8
+            Procedure OnClick
+                Send Cancel of oPromptList
+            End_Procedure
+
+        End_Object 
+
+        Object oSearchButton is a cWebButton
+            Set psCaption to "Search..."
+            Set piColumnSpan to 2
+            Set piColumnIndex to 10
+
+            Procedure OnClick
+                Send Search of oPromptList
+            End_Procedure
+
+        End_Object 
+    End_Object 
+
+    Procedure Popup Handle hoReturnObject
+        Forward Send Popup hoReturnObject
+        
+        Send InitializePromptList of oPromptList
+    End_Procedure 
+
+    Set pbServerOnSubmit to True
+    Procedure OnSubmit 
+        Send Ok of oPromptList
+    End_Procedure 
+
+End_Object 

@@ -105,6 +105,26 @@ Object oWebApp is a cWebApp
                     Set psCaption to "Média karbantartása"
                     Set psLoadViewOnClick to "oMedia_rogz"
                 End_Object
+
+                Object oBrlkkarbantartsaItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "Bérlők karbantartása"
+                    Set psLoadViewOnClick to "oBerloRogz"
+                End_Object
+
+                Object oKlcsnzsilapItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "Kölcsönzési lap"
+                    Set psLoadViewOnClick to "oLaprogz"
+                End_Object
+
+                Object oHavikimutatItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "havi_kimutat"
+                    Set psLoadViewOnClick to "ohavi_kimutatReportView"
+                End_Object
+
+                Object oDynamicViewItem1 is a cWebMenuItemLoadView
+                    Set psCaption to "DynamicView"
+                    Set psLoadViewOnClick to "oDynamicView"
+                End_Object
             End_Object  
         End_Object  
         
@@ -151,6 +171,10 @@ Object oWebApp is a cWebApp
     Use HelloWorld.wo
     Use Ember_rogz.wo
     Use Media_rogz.wo
+    Use BerloRogz.wo
+    Use Laprogz.wo
+    Use havi_kimutatReport.wo
+    Use DynamicView.wo
     
 End_Object
 

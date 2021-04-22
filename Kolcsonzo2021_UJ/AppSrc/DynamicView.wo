@@ -1,0 +1,56 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg 
+Use cWebDynamicObjectContainer.pkg
+
+Object oDynamicView is a cWebView
+    Set piWidth to 700
+    Set psCaption to "DynamicView"
+
+    // Your DDO structure will go here
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oWebDynamicObjectContainer1 is a cWebDynamicObjectContainer
+            Set piColumnCount to 12
+            
+            Procedure Load
+                Handle hoObj
+                Integer iRows
+                
+                Send ResetContainer
+                
+                Get CreateDynamicObject (RefClass(cWebForm)) ("oAddressForm" + String(iRows)) "" to hoObj
+                Send InitDynamicProp of hoObj "psLabel" ("AddressForm "+ String(iRows))
+                Send InitDynamicProp of hoObj "piColumnSpan" 10
+                
+                Get CreateDynamicObject (RefClass(cWebButton)) "oAddRow" "" to hoObj
+                Send InitDynamicProp of hoObj "psLabel" "AddRow"
+                Send InitDynamicProp of hoObj "piColumnIndex" 10
+                
+                Get CreateDynamicObject (RefClass(cWebButton)) "oDelRow" "" to hoObj
+                Send InitDynamicProp of hoObj "psLabel" "DelRow"
+                Send InitDynamicProp of hoObj "piColumnIndex" 10
+               
+                
+                Send Activate
+            End_Procedure
+        End_Object
+        
+        // place controls here
+        // Your view will grow as controls are added
+        
+//        Object oForm is a cWebForm
+//            Set piColumnSpan to 0
+//            Set psLabel to "Label 1:"
+//        End_Object
+        
+    End_Object 
+
+    Procedure OnBeforeShow
+        Forward Send OnBeforeShow
+        Send Load of oWebDynamicObjectContainer1
+    End_Procedure
+
+End_Object

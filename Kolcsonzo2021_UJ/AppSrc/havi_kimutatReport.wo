@@ -1,0 +1,114 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebButton.pkg
+Use cWebGroup.pkg
+Use cWebForm.pkg
+Use cWebEdit.pkg
+Use cWebRadio.pkg
+Use cWebCombo.pkg
+Use cWebCheckBox.pkg
+Use cWebLabel.pkg
+Use cWebIFrame.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cDRReport.pkg
+
+Use chaviDataDictionary.dd
+
+Object ohavi_kimutatReportView Is A cWebView
+    Set psCaption to "havi_kimutat"
+    Set peWebViewStyle to wvsDesktop
+
+    Object ohavi_DD is a chaviDataDictionary
+    End_Object
+
+    Object oReport is a cDRReport
+        Set psReportName to "havi_kimutat.dr"
+
+        Procedure OnCreate
+            Forward Send OnCreate
+
+            Set piReportLanguage "" to LANG_HUNGARIAN
+        End_Procedure
+
+        Procedure OnInitializeReport
+            String sReportId
+
+            Get psReportId to sReportId
+
+            Send ChangeODBCDataSource sReportId
+            Send SetFilters
+            Send SetSortFields
+        End_Procedure
+
+        Procedure SetSortFields
+            // You can add sort fields using the AddRecordSortField method and remove sort fields with RemoveAllRecordSortFields.
+        End_Procedure
+
+        Procedure SetFilters
+            String sReportId
+            String shavievho
+
+            Get psReportId to sReportId
+            WebGet psValue of ohavievho to shavievho
+
+            If (Length (shavievho) > 0) Begin
+                Send AddFilter sReportId "{havi.evho}" C_drEqual shavievho
+            End
+        End_Procedure
+
+        // Activate the code inside this method if you want to change the database connection
+        Procedure ChangeODBCDataSource String sReportId
+            String sConnectionString sDSN sSubReportId
+            Integer iSubReports iSubReport
+
+            Get psDatabaseConnection sReportId to sConnectionString
+            Get psDatabaseName sReportId to sDSN
+            // ToDo: Change the contents of sDSN and/or sConnectionString
+            Set psDatabaseConnection sReportId to sConnectionString
+            Set psDatabaseName sReportId to sDSN
+
+            Get SubReportCount sReportId to iSubReports
+            Decrement iSubReports
+            For iSubReport from 0 to iSubReports
+                Get SubReportId sReportId iSubReport to sSubReportId
+                Send ChangeODBCDataSource sSubReportId
+            Loop
+        End_Procedure
+
+    End_Object
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object ohavievho Is A cWebForm
+            Set piColumnSpan to 3
+            Set peLabelPosition to lpTop
+            Set peLabelAlign to alignLeft
+            Set psLabel to "Év, hónap"
+            Set psToolTip to "Enter a selection value."
+            Set peDatatype to typeAscii
+            Set piMaxLength to 10
+        End_Object
+
+        Procedure RunReport
+            Send GenerateReport of oReport
+        End_Procedure
+
+        Object oRunButton is a cWebButton
+            Set psCaption to "Run Report"
+            Set piColumnSpan to 2
+
+            Procedure OnClick
+                Send RunReport
+            End_Procedure
+        End_Object
+
+        Object oViewer is a cWebIFrame
+            Set pbFillHeight to True
+            Set pbShowBorder to True
+            Set phoReportViewer of oReport to Self
+        End_Object
+    End_Object
+
+End_Object

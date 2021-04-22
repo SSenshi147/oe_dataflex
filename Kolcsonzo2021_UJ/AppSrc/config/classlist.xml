@@ -3,9 +3,9 @@
 	<VDFLibraryTimeStamp>2021-03-06T20:39:02</VDFLibraryTimeStamp>
 	<libraries>
 		<library>
-			<libraryPath>Libraries\DataFlex Reports 8.0\DataFlex Reports.sws</libraryPath>
+			<libraryPath>..\..\..\..\..\Libraries\DataFlex Reports 8.0\20.0\DataFlex Reports.sws</libraryPath>
 			<libraryTimeStamp>2021-03-09T12:12:56</libraryTimeStamp>
-			<libraryID>Lib1</libraryID>
+			<libraryID>Lib2</libraryID>
 		</library>
 	</libraries>
 	<classes>
@@ -990,160 +990,6 @@
 			<libraryID>0</libraryID>
 		</class>
 		<class>
-			<className>cDRReport</className>
-			<image>ControlCOM.ico</image>
-			<package>cDRReport.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRPreview</className>
-			<image>ControlView.ico</image>
-			<package>cDRPreview.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRPreviewWindow</className>
-			<image>ControlObject.ico</image>
-			<package>cDRPreviewWindow.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRToolPanelPreview</className>
-			<image>ControlToolPanel.ico</image>
-			<package>cDRToolPanelPreview.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cWebDRReportViewer</className>
-			<image>cWebHtmlBox.ico</image>
-			<package>cWebDRReportViewer.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRWebSortColumnsGrid</className>
-			<image>cWebGrid.ico</image>
-			<package>cDRWebSortColumnsGrid.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRWebSortDirectionColumn</className>
-			<image>cWebColumnCombo.ico</image>
-			<package>cDRWebSortDirectionColumn.Pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cCJSortColumnsGrid</className>
-			<image>ControlGrid.ico</image>
-			<package>cCJSortColumnsGrid.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRSortDirectionsGridColumn</className>
-			<image>ControlGridColumn.ico</image>
-			<package>cDRSortDirectionsGridColumn.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRCommandBarSystem</className>
-			<image>ControlCOM.ico</image>
-			<package>cDRCommandBarSystem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRPreviewCommandBarSystem</className>
-			<image>ControlCOM.ico</image>
-			<package>cDRPreviewCommandBarSystem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRCurrentPageMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRCurrentPageMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRPreviousPageMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRPreviousPageMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRFirstPageMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRFirstPageMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRExportMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRExportMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRLastPageMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRLastPageMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRNextPageMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRNextPageMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRPrintMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRPrintMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRRefreshMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRRefreshMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRExportOptionsGroup</className>
-			<image>ControlGroup.ico</image>
-			<package>cDRExportOptionsGroup.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRZoomMenuItem</className>
-			<image>ControlObject.ico</image>
-			<package>cDRZoomMenuItem.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
-			<className>cDRGroupTree</className>
-			<image>ControlTreeview.ico</image>
-			<package>cDRGroupTree.pkg</package>
-			<groupName>DataFlex Reports</groupName>
-			<libraryID>Lib1</libraryID>
-		</class>
-		<class>
 			<className>cWScheckVatService</className>
 			<image>ControlClientWebService.ico</image>
 			<package>cWScheckVatService.pkg</package>
@@ -1183,6 +1029,160 @@
 			<package>cSelectFolderDialog.pkg</package>
 			<groupName>Dialogs</groupName>
 			<libraryID>0</libraryID>
+		</class>
+		<class>
+			<className>cDRReport</className>
+			<image>ControlCOM.ico</image>
+			<package>cDRReport.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRPreview</className>
+			<image>ControlView.ico</image>
+			<package>cDRPreview.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRPreviewWindow</className>
+			<image>ControlObject.ico</image>
+			<package>cDRPreviewWindow.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRToolPanelPreview</className>
+			<image>ControlToolPanel.ico</image>
+			<package>cDRToolPanelPreview.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cWebDRReportViewer</className>
+			<image>cWebHtmlBox.ico</image>
+			<package>cWebDRReportViewer.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRWebSortColumnsGrid</className>
+			<image>cWebGrid.ico</image>
+			<package>cDRWebSortColumnsGrid.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRWebSortDirectionColumn</className>
+			<image>cWebColumnCombo.ico</image>
+			<package>cDRWebSortDirectionColumn.Pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cCJSortColumnsGrid</className>
+			<image>ControlGrid.ico</image>
+			<package>cCJSortColumnsGrid.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRSortDirectionsGridColumn</className>
+			<image>ControlGridColumn.ico</image>
+			<package>cDRSortDirectionsGridColumn.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRCommandBarSystem</className>
+			<image>ControlCOM.ico</image>
+			<package>cDRCommandBarSystem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRPreviewCommandBarSystem</className>
+			<image>ControlCOM.ico</image>
+			<package>cDRPreviewCommandBarSystem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRCurrentPageMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRCurrentPageMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRPreviousPageMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRPreviousPageMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRFirstPageMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRFirstPageMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRExportMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRExportMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRLastPageMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRLastPageMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRNextPageMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRNextPageMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRPrintMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRPrintMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRRefreshMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRRefreshMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRExportOptionsGroup</className>
+			<image>ControlGroup.ico</image>
+			<package>cDRExportOptionsGroup.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRZoomMenuItem</className>
+			<image>ControlObject.ico</image>
+			<package>cDRZoomMenuItem.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
+		</class>
+		<class>
+			<className>cDRGroupTree</className>
+			<image>ControlTreeview.ico</image>
+			<package>cDRGroupTree.pkg</package>
+			<groupName>DataFlex Reports</groupName>
+			<libraryID>Lib2</libraryID>
 		</class>
 	</classes>
 </classList>
