@@ -14,7 +14,7 @@ Use cWebCombo.pkg
 
 Object olapWebLookup is a cWebModalDialog
     Set piColumnCount to 12
-    Set psCaption to "Kölcsözési lap keresése"
+    Set psCaption to "Kölcsönzési lap keresése"
     Set piWidth to 1100
     Set piHeight to 600
 
@@ -26,37 +26,38 @@ Object olapWebLookup is a cWebModalDialog
         
         Set pbUseDDSQLFilters to True
         
-        
         Procedure OnConstrain
-                      
             String sStatus sSqlFilter sFieldname
+            
             Get SQLStrFileFieldName (RefTable(lap.status)) to sFieldname
-            WebGet Value of oWebCombo1 to sStatus
+            
+            WebGet psValue of oWebCombo1 to sStatus
             If (sStatus ne "") Begin
                 If (sStatus eq "Rögzítés alatt") Begin
                     //Constrain lap.status eq "0"
-                    Move (sFieldname + "='0'") to sSqlFilter
+                    Move (sFieldname+"='0'") to sSqlFilter
                 End
-                If (sStatus eq "Bérlo elvitte") Begin
+                If (sStatus eq "Bérlï elvitte") Begin
                     //Constrain lap.status eq "1"
-                    Move (sFieldname + "='1'") to sSqlFilter
+                    Move (sFieldname+"='1'") to sSqlFilter
                 End
-                If (sStatus eq "Bérlo visszahozta") Begin
+                If (sStatus eq "Bérlï visszahozta") Begin
                     //Constrain lap.status eq "2"
-                    Move (sFieldname + "='2'") to sSqlFilter
+                    Move (sFieldname+"='2'") to sSqlFilter
                 End
                 If (sStatus eq "Törölt") Begin
                     //Constrain lap.status eq "9"
-                    Move (sFieldname + "='9'") to sSqlFilter
+                    Move (sFieldname+"='9'") to sSqlFilter
                 End
                 
-                Set psSQLFilter to sSqlFilter //szurésfeltétel beállítása
+                Set psSQLFilter to sSqlFilter
             End
         End_Procedure
+        
     End_Object 
 
-    Set Main_DD To olap_DD
-    Set Server  To olap_DD
+    Set Main_DD to olap_DD
+    Set Server  to olap_DD
 
 
     Object oWebMainPanel is a cWebPanel
@@ -95,24 +96,19 @@ Object olapWebLookup is a cWebModalDialog
                 Set psCaption to "status"
                 Set piWidth to 48
             End_Object 
-
-            Object olaposszertek is a cWebColumn
-                Entry_Item lap.osszertek
-                Set psCaption to "osszertek"
-                Set piWidth to 110
-            End_Object 
         End_Object 
 
         Object oWebCombo1 is a cWebCombo
-            Set piColumnSpan to 5
+            Set piColumnSpan to 6
             Set psLabel to "combo"
             Set pbServerOnChange to True
-
+            
             Procedure OnFill
-                Forward Send OnFill
+                Forward Send OnField
+                
                 Send AddComboItem "Rögzítés alatt" "Rögzítés alatt"
-                Send AddComboItem "Bérlo elvitte" "Bérlo elvitte"
-                Send AddComboItem "Bérlo visszahozta" "Bérlo visszahozta"
+                Send AddComboItem "Bérlő elvitte" "Bérlő elvitte"
+                Send AddComboItem "Bérlő visszahozta" "Bérlő visszahozta"
                 Send AddComboItem "Törölt" "Törölt"
             End_Procedure
 

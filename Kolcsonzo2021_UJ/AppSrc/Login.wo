@@ -1,4 +1,4 @@
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebForm.pkg
 Use cWebButton.pkg
 Use cWebPanel.pkg
@@ -29,7 +29,7 @@ Object oLogin is a cWebView
     
     Object oWarning is a cWebLabel
         Set pbVisible to False
-        Set psCaption to "Invalid User ID or password. \n\rHint: 'John' & 'John'."
+        Set psCaption to "Invalid User ID or password. \n\rHint: 'Guest' & 'guest'."
         Set peAlign to alignCenter
         Set piColumnSpan to 12
         Set psCSSClass to "LoginWarning"
@@ -53,6 +53,7 @@ Object oLogin is a cWebView
         Set pbShowLabel to False
         Set psPlaceHolder to "loginname"
         Set piColumnSpan to 10
+        Set psAutoComplete to "username"
     End_Object
     
     Object oPassword is a cWebForm
@@ -65,6 +66,7 @@ Object oLogin is a cWebView
         Set psPlaceHolder to "password"
         Set piColumnSpan to 10
         Set piColumnIndex to 1
+        Set psAutoComplete to "current-password"
     End_Object
     
     Object oWebSpacer1 is a cWebSpacer
@@ -92,7 +94,6 @@ Object oLogin is a cWebView
     Procedure DoLogin
         String sLoginName sPassword sPrevStateHash
         Boolean bResult
-        Handle hoDefaultView
         
         WebGet psValue of oLoginName to sLoginName
         WebGet psValue of oPassword to sPassword

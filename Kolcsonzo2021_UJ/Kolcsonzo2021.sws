@@ -7,8 +7,7 @@ DefaultFormHeight=12
 [Conditionals]
 Is$WebApp=True
 Is$Win64=True
-[Projects]
-Project0=Kolcsonzo.src
-Project1=WebApp.src
 [Libraries]
 Lib2=..\..\..\..\..\Libraries\DataFlex Reports 8.0\20.0\DataFlex Reports.sws
+[Projects]
+Project0=Kolcsonzo.src

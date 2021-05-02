@@ -1,0 +1,58 @@
+﻿Use cWebImage.pkg
+Use cWebDynamicObjectContainer.pkg
+Use cWebForm.pkg
+
+Class cAddRow is a cWebImage
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+        Set psUrl to "Images/add.png"
+        Set piColumnSpan to 1
+        Set piHeight to 30
+        Set pePosition to wiFit
+        Set pbServerOnClick to True
+    End_Procedure
+    
+    Procedure OnClick
+        Integer iLastRow
+        Handle hoOwner hoObj
+        
+        Get Owner to hoOwner
+        
+        WebGet piRows of hoOwner to iLastRow
+        
+        Get CreateDynamicObject (RefClass(cWebForm)) ("oAddressForm" + String(iLastRow+1)) "" to hoObj
+        Send InitDynamicProp of hoObj "psLabel" ("AddressForm "+ String(iLastRow+1))
+        Send InitDynamicProp of hoObj "piColumnSpan" 10
+        
+        Send InsertDynamicObject of hoOwner ("oAddressForm"+String(iLastRow+1)) ("oAddressForm"+String(iLastRow))
+        
+        WebSet piRows of hoOwner to (iLastRow+1)
+    End_Procedure
+End_Class
+
+Class cRemoveRow is a cWebImage
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+        Set psUrl to "Images/delete.png"
+        Set piColumnSpan to 1
+        Set piHeight to 30
+        Set pePosition to wiFit
+        Set pbServerOnClick to True
+    End_Procedure
+    
+    Procedure OnClick
+        Integer iLastRow
+        Handle hoOwner
+        
+        Get Owner to hoOwner
+        
+        WebGet piRows of hoOwner to iLastRow
+        
+        If (iLastRow > 0) Begin
+            Send DestroyDynamicObject of hoOwner ("oAddressForm"+String(iLastRow))
+            WebSet piRows of hoOwner to (iLastRow-1)
+        End
+    End_Procedure
+End_Class

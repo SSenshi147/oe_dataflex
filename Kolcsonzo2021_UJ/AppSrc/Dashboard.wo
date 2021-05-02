@@ -1,4 +1,4 @@
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebButton.pkg
@@ -70,9 +70,9 @@ Object oDashboard is a cWebView
                 Set piColumnSpan to 6
                 Set piColumnIndex to 6
                 Set psCSSClass to "Tile LightAlternate"
-                Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Tile 2</div><div class="Tile_Subtitle"></div></div>'
+                Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Emberek</div><div class="Tile_Subtitle"></div></div>'
                                 
-                // WebRegisterPath ntNavigateForwardCustom oYourViewName
+                WebRegisterPath ntNavigateForwardCustom oSelectEmber
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath

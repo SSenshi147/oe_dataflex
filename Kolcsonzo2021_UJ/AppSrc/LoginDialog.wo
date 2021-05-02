@@ -36,6 +36,7 @@ Object oLoginDialog is a cWebModalDialog
             Set peLabelPosition to C_WebDefault
             Set peLabelAlign to alignRight
             Set piMaxLength to 20
+            Set psAutoComplete to "username"
         End_Object
         
         Object oPassword is a cWebForm
@@ -43,6 +44,7 @@ Object oLoginDialog is a cWebModalDialog
             Set pbPassword to True
             Set peLabelAlign to alignRight
             Set piMaxLength to 20
+            Set psAutoComplete to "current-password"
         End_Object   
         
         Object oWarning is a cWebLabel
