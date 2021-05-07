@@ -1,0 +1,130 @@
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebButton.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cDRReport.pkg
+Use cWebDRReportViewer.pkg
+Use ExportReport.wo
+
+Use chaviDataDictionary.dd
+
+Object ohavi_kimutatReportResults Is A cWebView
+    Set psCaption to "havi_kimutat Report Results"
+    Set pbShowCaption to False
+    Set peViewType to vtZoom
+    Set peStateMode to vsmOff
+    Set peWebViewStyle to wvsDrillDown
+
+    Object ohavi_DD is a chaviDataDictionary
+    End_Object
+
+    Object oReport is a cDRReport
+        Set psReportName to "havi_kimutat.dr"
+
+        Procedure OnCreate
+            Forward Send OnCreate
+
+            Set piReportLanguage "" to LANG_HUNGARIAN
+        End_Procedure
+
+        Procedure OnInitializeReport
+            String sReportId
+
+            Get psReportId to sReportId
+
+            Send ChangeODBCDataSource sReportId
+            Send SetFilters
+            Send SetSortFields
+        End_Procedure
+
+        Procedure SetSortFields
+            String sReportId
+
+            Send AddRecordSortField sReportId "{havi.evho}" C_DRAscending
+        End_Procedure
+
+        Procedure SetFilters
+            String sReportId
+            tWebNavigateData NavigateData
+            Integer ihavievho ihavievhoMode
+
+            Get psReportId to sReportId
+            Get GetNavigateData to NavigateData
+            Get NamedValueIndex NavigateData.NamedValues "havievho" to ihavievho
+            Get NamedValueIndex NavigateData.NamedValues "havievhoMode" to ihavievhoMode
+
+            If (ihavievhoMode > -1 and ihavievho > -1) Begin
+                Send AddFilter sReportId "{havi.evho}" NavigateData.NamedValues[ihavievhoMode].sValue NavigateData.NamedValues[ihavievho].sValue
+            End
+        End_Procedure
+
+        // Activate the code inside this method if you want to change the database connection
+        Procedure ChangeODBCDataSource String sReportId
+            String sConnectionString sDSN sSubReportId
+            Integer iSubReports iSubReport
+
+            Get psDatabaseConnection sReportId to sConnectionString
+            Get psDatabaseName sReportId to sDSN
+            // ToDo: Change the contents of sDSN and/or sConnectionString
+            Set psDatabaseConnection sReportId to sConnectionString
+            Set psDatabaseName sReportId to sDSN
+
+            Get SubReportCount sReportId to iSubReports
+            Decrement iSubReports
+            For iSubReport from 0 to iSubReports
+                Get SubReportId sReportId iSubReport to sSubReportId
+                Send ChangeODBCDataSource sSubReportId
+            Loop
+        End_Procedure
+
+    End_Object
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Procedure RunReport
+            Send ShowReport of oViewer
+        End_Procedure
+
+        Object oViewer is a cWebDRReportViewer
+            Set phoReport to oReport
+
+            WebSetResponsive pbShowToolbar rmTablet to False
+        End_Object
+    End_Object
+
+    Object oActionGroup is a cWebMenuGroup
+        Set psGroupName to "MainActions"
+
+        Object oPrintReportMenuItem is a cWebMenuItem
+            Set psCaption to "Print"
+            Set psTooltip to "Print the report"
+            Set peActionDisplay to adMenu
+
+            Procedure OnClick
+                Send PrintReport of oViewer
+            End_Procedure
+        End_Object
+
+        Object oExportReportMenuItem is a cWebMenuItem
+            Set psCaption to "Export Results"
+            Set psTooltip to "Select Export Options"
+            Set peActionDisplay to adMenu
+
+            WebRegisterPath ntNavigateForward oExportReportWebView
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnNavigateBack Handle hoCallback tWebNavigateData NavigateData
+                Send ExportReportToDownloadURL of oReport NavigateData.NamedValues
+            End_Procedure
+        End_Object
+    End_Object
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData Handle hoInvokingView Handle hoInvokingObject
+        Send RunReport of oWebMainPanel
+    End_Procedure
+End_Object

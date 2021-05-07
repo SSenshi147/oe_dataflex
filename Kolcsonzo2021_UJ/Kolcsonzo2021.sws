@@ -8,6 +8,7 @@ DefaultFormHeight=12
 Is$WebApp=True
 Is$Win64=True
 [Libraries]
-Lib2=..\..\..\..\..\Libraries\DataFlex Reports 8.0\20.0\DataFlex Reports.sws
+Lib1=C:\Libraries\DataFlex Reports 8.0\20.0\DataFlex Reports.sws
 [Projects]
 Project0=Kolcsonzo.src
+Project1=WebApp.src

@@ -1,0 +1,508 @@
+﻿// D:\repos\oe_dataflex\Kolcsonzo2021_UJ\AppSrc\ZoomKolcsonzoseLap.wo
+// Kölcsönzési lap
+//
+
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cWebForm.pkg
+Use cWebCombo.pkg
+Use cWebGroup.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use ZoomLaptetel.wo
+
+Use cemberDataDictionary.dd
+Use cmediaDataDictionary.dd
+Use cberloDataDictionary.dd
+Use clapDataDictionary.dd
+Use claptetelDataDictionary.dd
+
+Object oZoomKolcsonzoseLap is a cWebView
+    Set piColumnCount to 12
+    Set psCaption to "Kölcsönzési lap"
+    Set peWebViewStyle to wvsDrilldown
+    Set peViewType to vtZoom
+    Set pbShowCaption to False
+    Set Verify_Save_Msg to 0
+    Set piMaxWidth to 1024
+
+    Object oember_DD is a cemberDataDictionary
+    End_Object 
+
+    Object omedia_DD is a cmediaDataDictionary
+        Set DDO_Server To oember_DD
+    End_Object 
+
+    Object oberlo_DD is a cberloDataDictionary
+    End_Object 
+
+    Object olap_DD is a clapDataDictionary
+        Set DDO_Server to oberlo_DD
+        
+        Procedure OnPostFind Integer eMessage Boolean bFound
+            Boolean bSync
+            Forward Send OnPostFind eMessage bFound
+            
+            Integer iStatus
+            
+            Get AppSynching of oWebApp to bSync
+            
+            If (not(bSync)) Begin
+                
+            
+            
+                Get File_Field_Current_Value of olap_DD File_Field lap.status to iStatus
+                
+                If (iStatus=0) Begin
+                    WebSet pbEnabled of oberloid to True
+                    WebSet pbEnabled of oberlonev to True
+                    WebSet pbEnabled of olapkezdat to True
+                    WebSet pbEnabled of olapkiado to True
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to True
+                    WebSet pbRender of oNewDetail to True
+                End
+                If (iStatus=1) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to True
+                    WebSet pbEnabled of olapvegdat to True
+                    WebSet pbEnabled of oDetailGrid to False
+                    WebSet pbRender of oNewDetail to False
+                End
+                If (iStatus=2) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to False 
+                    WebSet pbRender of oNewDetail to False
+                End
+                If (iStatus=9) Begin
+                    WebSet pbEnabled of oberloid to False
+                    WebSet pbEnabled of oberlonev to False
+                    WebSet pbEnabled of olapkezdat to False
+                    WebSet pbEnabled of olapkiado to False
+                    WebSet pbEnabled of olapbevevo to False
+                    WebSet pbEnabled of olapvegdat to False
+                    WebSet pbEnabled of oDetailGrid to False
+                    WebSet pbRender of oNewDetail to False
+                End
+            End
+        End_Procedure
+
+        Procedure Clear_Main_File
+            Boolean bSync
+            Forward Send Clear_Main_File
+            
+            Get AppSynching of oWebApp to bSync
+            
+            If (not(bSync)) Begin
+                WebSet pbEnabled of oberloid to True
+                WebSet pbEnabled of oberlonev to True
+                WebSet pbEnabled of olapkezdat to True
+                WebSet pbEnabled of olapkiado to True
+                WebSet pbEnabled of olapbevevo to False
+                WebSet pbEnabled of olapvegdat to False
+                WebSet pbEnabled of oDetailGrid to True
+                WebSet pbRender of oNewDetail to True
+            End
+        End_Procedure
+    End_Object 
+
+    Object olaptetel_DD is a claptetelDataDictionary
+        Set DDO_Server To olap_DD
+        Set DDO_Server To omedia_DD
+        Set Constrain_File To lap.File_Number
+    End_Object 
+
+    Set Main_DD To olap_DD
+    Set Server  To olap_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+        WebSetResponsive piColumnCount rmMobile to 4
+
+        Object olaplapid is a cWebForm
+            Entry_Item lap.lapid
+            Set piColumnSpan to 1
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "lapid"
+        End_Object 
+
+        Object olapstatus is a cWebCombo
+            Entry_Item lap.status
+            Set piColumnSpan to 8
+            Set piColumnIndex to 2
+            Set peLabelPosition to lpTop
+            Set psLabel to "status"
+            Set pbEnabled to False
+        End_Object 
+        
+        Object oWebButton1 is a cWebButton
+            Set piColumnSpan to 2
+            Set psCaption to "Lezárás"
+            Set peLabelPosition to lpTop
+            Set pbShowLabel to True
+        
+            Procedure OnClick
+                Integer iStatus
+                Boolean bErr
+                Get File_Field_Current_Value of olap_DD File_Field lap.status to iStatus
+                If (iStatus = 0) Begin
+                    Set File_Field_Changed_Value of olap_DD File_Field lap.status to 1
+                End
+                If (iStatus = 1) Begin
+                    Set File_Field_Changed_Value of olap_DD File_Field lap.status to 2
+                End
+                Get Request_Validate of olap_DD to bErr
+                If (not(bErr)) Begin
+                    Send Request_Save of olap_DD
+                End
+                //Send SuperFind of olaplapid
+                Send Refind_Records of olap_DD
+            End_Procedure
+        End_Object
+
+        Object oberloid is a cWebForm
+            Entry_Item berlo.id
+            Set piColumnSpan to 2
+            Set piColumnIndex to 0
+            Set peLabelPosition to lpFloat
+            Set psLabel to "id"
+            Set pbPromptButton to True
+
+            WebRegisterPath ntNavigateForward oSelectBerlok
+
+            Procedure OnPrompt
+                Send NavigatePath
+            End_Procedure
+        End_Object 
+
+        Object oberlonev is a cWebForm
+            Entry_Item berlo.nev
+            Set piColumnSpan to 9
+            Set piColumnIndex to 2
+            Set peLabelPosition to lpFloat
+            Set psLabel to "nev"
+            Set pbPromptButton to True
+
+            WebRegisterPath ntNavigateForward oSelectBerlok
+
+            Procedure OnPrompt
+                Send NavigatePath
+            End_Procedure
+        End_Object 
+
+        Object oWebGroup1 is a cWebGroup
+            Set piColumnSpan to 0
+            Set piColumnIndex to 0
+            Set piColumnCount to 12
+            Set psCaption to "Általános adatok"
+            Set pbCollapsible to True
+            WebSetResponsive piColumnCount rmMobile to 4
+
+            Object olapkezdat is a cWebDateForm
+                Entry_Item lap.kezdat
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "kezdat"
+            End_Object 
+
+            Object olapvegdat is a cWebDateForm
+                Entry_Item lap.vegdat
+                Set piColumnSpan to 2
+                Set piColumnIndex to 2
+                Set peLabelPosition to lpFloat
+                Set psLabel to "vegdat"
+            End_Object 
+
+            Object olapkiado is a cWebForm
+                Entry_Item lap.kiado
+                Set piColumnSpan to 4
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "kiado"
+            End_Object 
+
+            Object olapbevevo is a cWebForm
+                Entry_Item lap.bevevo
+                Set piColumnSpan to 4
+                Set piColumnIndex to 4
+                Set peLabelPosition to lpFloat
+                Set psLabel to "bevevo"
+            End_Object 
+
+            Object olaposszertek is a cWebForm
+                Entry_Item lap.osszertek
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "osszertek"
+            End_Object 
+
+            Object olaposszmenny is a cWebForm
+                Entry_Item lap.osszmenny
+                Set piColumnSpan to 2
+                Set piColumnIndex to 2
+                Set peLabelPosition to lpFloat
+                Set psLabel to "osszmenny"
+            End_Object 
+        End_Object 
+
+        Object oWebGroup2 is a cWebGroup
+            Set piColumnSpan to 0
+            Set piColumnIndex to 0
+            Set piColumnCount to 12
+            Set psCaption to "Módsosítások"
+            Set pbCollapsible to True
+            Set pbExpanded to False
+            WebSetResponsive piColumnCount rmMobile to 4
+
+            Object olapcrdt is a cWebForm
+                Entry_Item lap.crdt
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "crdt"
+            End_Object 
+
+            Object olapcrtime is a cWebForm
+                Entry_Item lap.crtime
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "crtime"
+            End_Object 
+
+            Object olaplmdt is a cWebForm
+                Entry_Item lap.lmdt
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "lmdt"
+            End_Object 
+
+            Object olaplmtime is a cWebForm
+                Entry_Item lap.lmtime
+                Set piColumnSpan to 2
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpFloat
+                Set psLabel to "lmtime"
+            End_Object 
+        End_Object 
+
+        Object oDetailGrid is a cWebList
+            Set Server to olaptetel_DD
+            Set piOrdering to 1
+            Set pbFillHeight to True
+            Set piColumnSpan to 12
+            Set psCSSClass to "MobileList"
+            Set pbServerOnRowClick to True
+            Set piMinHeight to 200
+            WebSetResponsive pbShowHeader rmMobile to False
+
+            Object omediamediaid is a cWebColumn
+                Entry_Item media.mediaid
+                Set psCaption to "mediaid"
+                Set piWidth to 80
+                Set pbSortable to False
+                WebSetResponsive pbRender rmMobile to False
+            End_Object 
+
+            Object omedianev is a cWebColumn
+                Entry_Item media.nev
+                Set psCaption to "Név"
+                Set piWidth to 667
+                Set pbSortable to False
+            End_Object 
+
+            Object omediaszerzo is a cWebColumn
+                Entry_Item media.szerzo
+                Set psCaption to "Szerzo"
+                Set piWidth to 667
+                Set pbSortable to False
+                
+            End_Object 
+
+            Object omediatipus is a cWebColumn
+                Entry_Item media.tipus
+                Set psCaption to "Típus"
+                Set piWidth to 60
+                Set pbSortable to False
+                WebSetResponsive pbNewLine rmMobile to True
+            End_Object 
+
+            Object omediaev is a cWebColumn
+                Entry_Item media.ev
+                Set psCaption to "Évszám"
+                Set piWidth to 60
+                Set pbSortable to False
+            End_Object 
+
+            Object olaptetelmenny is a cWebColumn
+                Entry_Item laptetel.menny
+                Set psCaption to "menny"
+                Set piWidth to 80
+                Set pbSortable to False
+                WebSetResponsive pbNewLine rmMobile to True
+            End_Object 
+
+            Object olaptetelar is a cWebColumn
+                Entry_Item laptetel.ar
+                Set psCaption to "ar"
+                Set piWidth to 146
+                Set pbSortable to False
+            End_Object 
+
+            WebRegisterPath ntNavigateForward oZoomLaptetel
+
+            Procedure OnRowClick String sRowId
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bSaveBeforeNavigate
+            End_Procedure
+
+        End_Object 
+    End_Object 
+
+    Object oActionGroup is a cWebMenuGroup
+
+        Object oSaveBtn is a cWebMenuItem
+            Set psCSSClass to "WebSaveMenuItem"
+            Set psCaption to "Save"
+
+            Procedure OnClick
+                Send Request_Save
+            End_Procedure
+
+        End_Object 
+
+        Object oEditBtn is a cWebMenuItem
+            Set psCSSClass to "WebEditMenuItem"
+            Set psCaption to "Edit"
+            Procedure OnClick
+                Send ChangeEditMode True
+                Send SetActionButtons
+            End_Procedure
+
+        End_Object 
+
+        Object oDeleteBtn is a cWebMenuItem
+            Set psCSSClass to "WebDeleteMenuItem"
+            Set psCaption to "Delete"
+            Set peActionDisplay to adMenu
+
+            Procedure OnClick
+                Send Request_Delete
+            End_Procedure
+
+        End_Object 
+
+        Object oCancelChangesBtn is a cWebMenuItem
+            Set psCSSClass to "WebIcon_Refresh"
+            Set psCaption to "Clear Changes"
+            Set peActionDisplay to adMenu
+            Procedure OnClick
+                Send RefreshRecord
+            End_Procedure
+
+        End_Object 
+
+        Object oNewDetail is a cWebMenuItem
+            Set psCaption to "New Detail Item"
+            Set peActionDisplay to adMenu
+            Set pbBeginGroup to True
+
+            WebRegisterPath ntNavigateForward oZoomLaptetel
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bNewRecord
+                Move True to NavigateData.bSaveBeforeNavigate
+            End_Procedure
+
+        End_Object 
+    End_Object 
+
+    Procedure SetActionButtons
+        tWebNavigateData NavigateData
+        Boolean bHasRecord
+        Handle hoDD
+
+        Get Server to hoDD
+        Get GetNavigateData to NavigateData
+        Get HasRecord of hoDD to bHasRecord
+
+        // let's hide all buttons and then Show the ones we want
+        WebSet pbRender of oEditBtn to False
+        WebSet pbRender of oSaveBtn to False
+        WebSet pbRender of oCancelChangesBtn to False
+        WebSet pbRender of oDeleteBtn to False
+        WebSet pbRender of oNewDetail to False
+
+        If (NavigateData.bReadOnly) Begin
+            WebSet pbRender of oEditBtn to True
+        End
+        Else Begin
+            If (bHasRecord and (lap.status>0)) Begin
+                WebSet pbRender of oNewDetail to False
+            End
+            Else Begin
+                WebSet pbRender of oNewDetail to True
+            End
+            WebSet pbRender of oSaveBtn to True
+            WebSet pbRender of oCancelChangesBtn to True
+            WebSet pbRender of oDeleteBtn to bHasRecord
+            //WebSet pbRender of oNewDetail to True
+        End
+    End_Procedure
+
+    Procedure OnViewSaved Handle hoServer Boolean bChanged
+        // Close after save
+        Send NavigateClose Self
+    End_Procedure
+
+    // this will close the view after a delete
+    Procedure OnViewDeleted Handle hoDDO
+        Send NavigateClose Self
+    End_Procedure
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData Integer hoInvokingView Integer hoInvokingObject
+        Case Begin
+            Case (NavigateData.eNavigateType = nfFromMain)
+                // If from main, this is a propbably a main file Select to Zoom.
+                Case Break
+
+            Case (NavigateData.eNavigateType = nfFromParent)
+                // If from parent, this is a constrained drill down.
+                Case Break
+
+            Case (NavigateData.eNavigateType = nfFromChild)
+                // If from child, this is a probably a parent Zoom from a Zoom.
+                Case Break
+
+            Case Else // must be nfUndefined
+
+        Case End
+
+        Send SetActionButtons
+
+    End_Procedure
+
+End_Object 

@@ -1,0 +1,110 @@
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebButton.pkg
+Use cWebGroup.pkg
+Use cWebForm.pkg
+Use cWebEdit.pkg
+Use cWebRadio.pkg
+Use cWebCombo.pkg
+Use cWebCheckBox.pkg
+Use cWebLabel.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cDRAPI.Pkg
+Use cDRReportHelper.Pkg
+
+Use chaviDataDictionary.dd
+
+Object ohavi_kimutatReportSelect Is A cWebView
+    Set psCaption to "havi_kimutat Report Selections"
+    Set pbShowCaption to False
+    Set peWebViewStyle to wvsDrillDown
+
+    Object ohavi_DD is a chaviDataDictionary
+    End_Object
+
+    Object oReportHelper is a cDRReportHelper
+    End_Object
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+
+        Object ohaviList Is A cWebList
+            Set pbFillHeight to True
+            Set piColumnSpan to 0
+            Set psCSSClass to "MobileList"
+            Set piSortColumn to 0 // set this to allow for searching
+            Set pbShowHeader to False
+            Set Server to ohavi_DD
+
+            Procedure OnLoad
+                Send Find Of ohavi_DD FIRST_RECORD 1
+            End_Procedure
+
+            Object ohavievho is a cWebColumn
+                Entry_Item havi.evho
+                Set psCaption to "evho"
+                Set psCSSClass to "RowCaption"
+                Set peAlign to alignLeft
+            End_Object
+        End_Object
+
+        Object oRunButton is a cWebButton
+            Set psCaption to "Run Report"
+            Set piColumnSpan to 2
+
+            WebSetResponsive pbRender rmTablet to False
+
+            Procedure OnLoad
+                Forward Send OnLoad
+
+                Send SetActionMode (RefProc (OnClick)) scModeProgress "Please Wait for report results to be generated and downloaded to the viewer..."
+            End_Procedure
+
+            Procedure OnClick
+                Send RunReport
+            End_Procedure
+        End_Object
+    End_Object
+
+    WebRegisterPath ntNavigateForward ohavi_kimutatReportResults
+
+    Procedure RunReport
+        Send NavigatePath
+    End_Procedure
+
+    Object oActionGroup is a cWebMenuGroup
+        Set psGroupName to "MainActions"
+
+        Object oRunReportMenuItem is a cWebMenuItem
+            Set psCaption to "Run Report"
+            Set psTooltip to "Run the report with selections"
+            Set psCSSClass to "RWRunReportButton"
+
+            WebSetResponsive peActionDisplay rmDesktop to adMenu
+            WebSetResponsive peActionDisplay rmTablet to adBoth
+
+            Procedure OnLoad
+                Forward Send OnLoad
+
+                Send SetActionMode (RefProc (OnClick)) scModeProgress "Please Wait for report results to be generated and downloaded to the viewer..."
+            End_Procedure
+
+            Procedure OnClick
+                Send RunReport
+            End_Procedure
+        End_Object
+    End_Object
+
+    Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData
+        String shavievho
+        String sReportId
+        WebGet psValue of ohavievho to shavievho
+
+        If (Length (shavievho) > 0) Begin
+            Get NamedValueAdd NavigateData.NamedValues "havievho" shavievho to NavigateData.NamedValues
+            Get NamedValueAdd NavigateData.NamedValues "havievhoMode" C_drEqual to NavigateData.NamedValues
+        End
+    End_Procedure
+End_Object

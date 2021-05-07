@@ -63,6 +63,50 @@ Object oWebApp is a cWebApp
                             Send NavigatePath
                         End_Procedure
                     End_Object
+
+                    Object oMdikkeresseItem1 is a cWebMenuItem
+                        Set psCaption to "Médiák keresése"
+
+                        WebRegisterPath ntNavigateBegin oSelectMedia
+
+                        Procedure OnClick
+                            Forward Send OnClick
+                            Send NavigatePath
+                        End_Procedure
+                    End_Object
+
+                    Object oBrlkkarbantartsaItem1 is a cWebMenuItem
+                        Set psCaption to "Bérlők karbantartása"
+
+                        WebRegisterPath ntNavigateBegin oSelectBerlok
+
+                        Procedure OnClick
+                            Forward Send OnClick
+                            Send NavigatePath
+                        End_Procedure
+                    End_Object
+
+                    Object oKlcsnzslapokkeresseItem1 is a cWebMenuItem
+                        Set psCaption to "Kölcsönzösé lapok keresése"
+
+                        WebRegisterPath ntNavigateBegin oSelectLap
+
+                        Procedure OnClick
+                            Forward Send OnClick
+                            Send NavigatePath
+                        End_Procedure
+                    End_Object
+
+                    Object oHavikimutatReportSelectionsItem1 is a cWebMenuItem
+                        Set psCaption to "havi_kimutat Report Selections"
+
+                        WebRegisterPath ntNavigateBegin ohavi_kimutatReportSelect
+
+                        Procedure OnClick
+                            Forward Send OnClick
+                            Send NavigatePath
+                        End_Procedure
+                    End_Object
                 End_Object
 
                 Object oSignOut_itm is a cWebMenuItem
@@ -148,6 +192,14 @@ Object oWebApp is a cWebApp
     Use SelectEmber.wo
     Use ZoomMediaTetel.wo
     Use ZoomMedia.wo
+    Use SelectMedia.wo
+    Use ZoomBerlo.wo
+    Use SelectBerlok.wo
+    Use ZoomLaptetel.wo
+    Use ZoomKolcsonzoseLap.wo
+    Use SelectLap.wo
+    Use havi_kimutatReportSelect.wo
+    Use havi_kimutatReportResults.wo
     Set phoDefaultView to oDashboard
 
 End_Object
